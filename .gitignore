@@ -1,0 +1,23 @@
+node_modules
+.env
+.env.*
+!.env.example
+
+# local dev / test logs (generated while running npm run dev)
+*.log
+logs-*.log
+dev.log
+
+# leftover Python virtualenv — the Flask service was removed, the Node API is the only backend
+.venv/
+__pycache__/
+backend/data/enquiries.json
+backend/lib/enquiries.json
+
+# admin credentials store + logged-in sessions — never commit password hashes
+backend/data/admins.json
+backend/data/sessions.json
+
+# photos uploaded through the admin panel
+public/uploads/
+!public/uploads/.gitkeep

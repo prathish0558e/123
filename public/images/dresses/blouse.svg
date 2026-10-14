@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Blouse">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#fff6ec"/>
+      <stop offset="1" stop-color="#ffeedd"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.55">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="weave" width="26" height="26" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="26" stroke="#4a2208" stroke-opacity="0.05" stroke-width="2"/>
+    </pattern>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f97316"/>
+      <stop offset="1" stop-color="#f97316"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect width="800" height="1000" fill="url(#weave)"/>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+  <rect x="26" y="26" width="748" height="948" rx="30" fill="none" stroke="#4a2208" stroke-opacity="0.12" stroke-width="2"/>
+
+  <g stroke="#4a2208" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M312 268 L400 244 L488 268 L556 340 L556 452 L500 464 L496 396 L492 720 L308 720 L304 396 L300 464 L244 452 L244 340 Z"/>
+      <path d="M312 268 Q400 356 488 268" stroke-width="5"/>
+      <path d="M400 356 L400 720" stroke-width="4" stroke-opacity="0.5"/>
+      <path d="M328 470 Q400 512 472 470" stroke-width="4" stroke-dasharray="10 12"/>
+      <path d="M352 300 L448 300" stroke-width="4" stroke-opacity="0.5"/>
+      <circle cx="400" cy="560" r="9" fill="#0d6efd" stroke="none"/>
+      <circle cx="400" cy="626" r="9" fill="#0d6efd" stroke="none"/></g>
+
+  <rect x="354" y="850" width="92" height="5" rx="2.5" fill="url(#accent)"/>
+  <text x="400" y="896" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="40" fill="#4a2208">Blouse</text>
+  <text x="400" y="934" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="19" letter-spacing="4" fill="#4a2208" fill-opacity="0.6" text-transform="uppercase">MADE TO MEASURE</text>
+</svg>

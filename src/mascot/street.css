@@ -1,0 +1,439 @@
+/*
+ * Compact road/platform positioned over the WhatsApp button by StreetMascot.
+ *
+ * The layer itself never takes pointer events — only the shop and human guide
+ * are clickable — so page links underneath keep working.
+ * The guide sits above the road; the WhatsApp button remains a separate
+ * clickable control just below it.
+ */
+
+.tct-street {
+  --road-h: 12px;
+  --shop-w: 164px;
+  --shop-h: 108px;
+  --human-w: 68px;
+  --human-h: 96px;
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  z-index: 92;
+  pointer-events: none;
+  font-family: inherit;
+}
+
+/* ------------------------------- road --------------------------------- */
+.tct-road {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 126px;
+  height: var(--road-h);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #747d91 0, #343d52 45%, #222a3b 100%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 6px 12px rgba(15, 23, 42, 0.24);
+}
+
+.tct-road::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  width: 42px;
+  height: 2px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+/* ------------------------------- shop --------------------------------- */
+.tct-shop {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: auto;
+  width: var(--shop-w);
+  height: var(--shop-h);
+  padding: 0;
+  border: 0;
+  background: none;
+  pointer-events: auto;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tct-shop:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.tct-shop-sign {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: linear-gradient(180deg, #1677ff, #0d53c9);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 7px;
+  box-shadow: 0 5px 12px rgba(13, 110, 253, 0.35);
+  transition: filter 0.2s ease;
+}
+
+.tct-shop:hover .tct-shop-sign {
+  filter: brightness(1.1);
+}
+
+/* white chip so the black TCT lettering stays readable on the blue sign */
+.tct-shop-sign img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 50%;
+  padding: 1.5px;
+}
+
+.tct-shop-sign em {
+  font-style: normal;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  color: #fff;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(4, 32, 84, 0.5);
+}
+
+.tct-shop-roof {
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  top: 28px;
+  height: 14px;
+  background: repeating-linear-gradient(90deg, #f97316 0 13px, #fff7ed 13px 26px);
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 4px;
+  box-shadow: 0 5px 10px rgba(15, 23, 42, 0.22);
+}
+
+.tct-shop-body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 42px;
+  bottom: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  padding: 6px;
+  background: linear-gradient(180deg, #fdfefe, #e7eefb);
+  border: 1px solid #b9c9e8;
+  border-radius: 0 0 7px 7px;
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.22);
+}
+
+.tct-shop-window {
+  position: relative;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(160deg, #e8f5ff, #bfe2ff);
+  border: 1px solid #9dc4ea;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.tct-shop-window svg {
+  width: 58%;
+  height: 76%;
+  filter: drop-shadow(0 3px 5px rgba(15, 23, 42, 0.25));
+}
+
+/* glass shine */
+.tct-shop-window::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.7) 0 20%,
+    transparent 20% 44%,
+    rgba(255, 255, 255, 0.4) 44% 56%,
+    transparent 56%
+  );
+  pointer-events: none;
+}
+
+.tct-shop-door {
+  position: relative;
+  width: 34px;
+  perspective: 240px;
+  background: linear-gradient(180deg, #3c2c1d, #241a11);
+  border-radius: 4px 4px 0 0;
+  overflow: hidden;
+  transition: background 0.4s ease;
+}
+
+.tct-shop.is-open .tct-shop-door {
+  background: linear-gradient(180deg, #ffd791, #ff9f45); /* warm light inside */
+}
+
+.tct-shop-door-leaf {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+  background: linear-gradient(120deg, #d9a066, #a86b35);
+  border-right: 1px solid rgba(0, 0, 0, 0.28);
+  box-shadow: inset -6px 0 10px rgba(0, 0, 0, 0.18);
+}
+
+.tct-shop.is-open .tct-shop-door-leaf {
+  transform: rotateY(-72deg);
+}
+
+.tct-shop-door-leaf::after {
+  content: "";
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff3c4;
+  box-shadow: 0 0 6px #ffd873;
+}
+
+/* ------------------------------- human -------------------------------- */
+.tct-human {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--human-w);
+  height: var(--human-h);
+  will-change: transform;
+}
+
+.tct-human.is-vanishing {
+  opacity: 0;
+}
+
+.tct-human-btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  filter: drop-shadow(0 6px 9px rgba(15, 23, 42, 0.3));
+  transition: transform 0.2s ease;
+}
+
+.tct-human-btn:hover {
+  transform: translateY(-2px);
+}
+
+.tct-human-btn:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+.tct-human-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transition: transform 0.18s ease;
+}
+
+.tct-human-canvas,
+.tct-human-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none;
+}
+
+/* --- walk cycle ------------------------------------------------------- */
+.tct-human-leg,
+.tct-human-arm {
+  transform-box: fill-box;
+  transform-origin: 50% 4%;
+}
+
+.tct-human.is-walking .tct-human-leg-a {
+  animation: tct-leg-a 0.46s linear infinite alternate;
+}
+
+.tct-human.is-walking .tct-human-leg-b {
+  animation: tct-leg-b 0.46s linear infinite alternate;
+}
+
+.tct-human.is-walking .tct-human-arm-a {
+  animation: tct-arm-a 0.46s linear infinite alternate;
+}
+
+/* the bag arm stays down once it is carrying something */
+.tct-human.is-walking:not(.has-bag) .tct-human-arm-b {
+  animation: tct-arm-b 0.46s linear infinite alternate;
+}
+
+.tct-human.is-walking .tct-human-figure {
+  animation: tct-bob 0.23s ease-in-out infinite alternate;
+}
+
+@keyframes tct-leg-a {
+  from { transform: rotate(24deg); }
+  to { transform: rotate(-24deg); }
+}
+
+@keyframes tct-leg-b {
+  from { transform: rotate(-24deg); }
+  to { transform: rotate(24deg); }
+}
+
+@keyframes tct-arm-a {
+  from { transform: rotate(-30deg); }
+  to { transform: rotate(26deg); }
+}
+
+@keyframes tct-arm-b {
+  from { transform: rotate(30deg); }
+  to { transform: rotate(-26deg); }
+}
+
+@keyframes tct-bob {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2px); }
+}
+
+.tct-human-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tct-blink 5.2s infinite;
+}
+
+.tct-human-tip {
+  animation: tct-tip 2.4s ease-in-out infinite;
+}
+
+@keyframes tct-blink {
+  0%, 93%, 100% { transform: scaleY(1); }
+  96% { transform: scaleY(0.1); }
+}
+
+@keyframes tct-tip {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+/* ------------------------------ bubble -------------------------------- */
+.tct-street-bubble {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  background: #fff;
+  color: #0f2440;
+  border: 1px solid #cfe0f7;
+  border-radius: 12px;
+  padding: 6px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.22);
+  animation: tct-bubble-pop 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+  pointer-events: none;
+}
+
+.tct-street-bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 9px;
+  height: 9px;
+  background: #fff;
+  border-right: 1px solid #cfe0f7;
+  border-bottom: 1px solid #cfe0f7;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+@keyframes tct-bubble-pop {
+  from { opacity: 0; transform: translateX(-50%) translateY(6px) scale(0.9); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+/* ------------------------------ mobile -------------------------------- */
+@media (max-width: 720px) {
+  .tct-street { --shop-w: 124px; --shop-h: 78px; --human-w: 68px; --human-h: 96px; }
+
+  .tct-shop-sign {
+    height: 22px;
+    gap: 4px;
+  }
+
+  .tct-shop-sign img {
+    width: 14px;
+    height: 14px;
+  }
+
+  .tct-shop-sign em {
+    font-size: 8px;
+  }
+
+  .tct-shop-roof {
+    top: 22px;
+    height: 10px;
+    left: -4px;
+    right: -4px;
+    background: repeating-linear-gradient(90deg, #f97316 0 10px, #fff7ed 10px 20px);
+  }
+
+  .tct-shop-body {
+    top: 30px;
+    gap: 5px;
+    padding: 5px;
+  }
+
+  .tct-shop-door {
+    width: 26px;
+  }
+
+  .tct-street-bubble {
+    font-size: 10px;
+    padding: 5px 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tct-human.is-walking .tct-human-leg-a,
+  .tct-human.is-walking .tct-human-leg-b,
+  .tct-human.is-walking .tct-human-arm-a,
+  .tct-human.is-walking:not(.has-bag) .tct-human-arm-b,
+  .tct-human.is-walking .tct-human-figure,
+  .tct-human-eye,
+  .tct-human-tip {
+    animation: none;
+  }
+
+  .tct-shop-door-leaf,
+  .tct-human-art {
+    transition-duration: 0.01s;
+  }
+}

@@ -1,0 +1,757 @@
+/* ==================================================================
+   TCT 3D Assistant mascot (lazy-loaded) — canvas never blocks input
+   ================================================================== */
+.tct3d-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 860;
+  pointer-events: none;
+  font-family: inherit;
+  isolation: isolate;
+}
+
+.tct3d-wrap canvas {
+  pointer-events: none !important;
+  mix-blend-mode: normal;
+  /* iOS Safari can refuse to composite a transparent WebGL canvas that has no
+     compositing layer of its own — the robot then simply never shows up.
+     Promoting the canvas to its own layer fixes that class of blank canvas. */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* the sleeping cloud — invisible round hit target with a soft halo */
+.tct3d-hit {
+  position: absolute;
+  width: 94px;
+  height: 88px;
+  transform: translate(-50%, -50%);
+  border-radius: 48px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tct3d-hit:focus-visible {
+  outline: 2px solid rgba(103, 232, 249, 0.9);
+  outline-offset: 4px;
+}
+
+.tct3d-halo {
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(125, 211, 252, 0.14), rgba(125, 211, 252, 0) 68%);
+  animation: tct3d-halo 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes tct3d-halo {
+  0%, 100% { opacity: 0.35; transform: scale(0.94); }
+  50% { opacity: 0.9; transform: scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tct3d-halo { animation: none; opacity: 0.6; }
+  .tct3d-status { animation: none; }
+}
+
+/* ------------------------ hologram chat panel --------------------- */
+.tct3d-panel {
+  position: absolute;
+  right: 3.2vw;
+  top: auto;
+  bottom: calc(var(--street-h, 16px) + 16px); /* float above the TCT street */
+  transform: none;
+  width: min(400px, calc(100vw - 24px));
+  max-height: min(68vh, 610px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  border: 1px solid rgba(125, 211, 252, 0.3);
+  background: linear-gradient(155deg, rgba(8, 17, 35, 0.975), rgba(12, 24, 45, 0.965));
+  backdrop-filter: blur(22px) saturate(1.2);
+  -webkit-backdrop-filter: blur(22px) saturate(1.2);
+  box-shadow:
+    0 0 0 1px rgba(226, 242, 255, 0.035),
+    inset 0 1px 0 rgba(255, 255, 255, 0.075),
+    0 24px 70px rgba(2, 6, 23, 0.56),
+    0 0 34px rgba(34, 211, 238, 0.11),
+    0 0 18px rgba(34, 211, 238, 0.075),
+    0 0 22px rgba(249, 115, 22, 0.04);
+  overflow: hidden;
+  pointer-events: auto;
+  color: #e7f6ff;
+}
+
+/* Soft colored glass reflections stay inside the chat panel. */
+.tct3d-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(56, 189, 248, 0.085), transparent 42%),
+    radial-gradient(ellipse at 0% 100%, rgba(249, 115, 22, 0.045), transparent 44%),
+    linear-gradient(125deg, rgba(255, 255, 255, 0.025), transparent 54%);
+  mix-blend-mode: screen;
+  z-index: 1;
+}
+
+.tct3d-panel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -90px;
+  height: 90px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(34, 211, 238, 0.1), rgba(249, 115, 22, 0.045), transparent);
+  animation: tct3d-scan 6.8s linear infinite;
+  z-index: 1;
+}
+
+@keyframes tct3d-scan {
+  0% { top: -90px; }
+  100% { top: 100%; }
+}
+
+.tct3d-panel-in {
+  transform-origin: var(--tct3d-impact-x, 14px) var(--tct3d-impact-y, 50%);
+  animation: tct3d-panel-in 0.62s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.tct3d-panel-out {
+  transform-origin: var(--tct3d-impact-x, 14px) var(--tct3d-impact-y, 50%);
+  animation: tct3d-panel-out 0.54s cubic-bezier(0.5, 0, 0.8, 0.3) both;
+  pointer-events: none;
+}
+
+.tct3d-panel-idle {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes tct3d-panel-in {
+  0% { opacity: 0; transform: translateY(22px) scale(0.14); filter: blur(10px); box-shadow: 0 0 0 rgba(34, 211, 238, 0); }
+  58% { opacity: 1; filter: blur(0); box-shadow: 0 0 26px rgba(34, 211, 238, 0.17), 0 0 36px rgba(249, 115, 22, 0.06); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes tct3d-panel-out {
+  0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  100% { opacity: 0; transform: translateY(14px) scale(0.16); filter: blur(10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tct3d-panel-in { animation-duration: 0.32s; }
+  .tct3d-panel-out { animation-duration: 0.28s; }
+  .tct3d-panel-in,
+  .tct3d-panel-out { filter: none; }
+  .tct3d-panel::after { display: none; }
+  .tct3d-panel-head::after { animation: none; }
+  .tct3d-status { animation: none; }
+  .tct3d-typing i { animation-duration: 1.8s; }
+}
+
+.tct3d-panel > * {
+  position: relative;
+  z-index: 2;
+}
+
+.tct3d-panel-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 14px;
+  border-bottom: 1px solid rgba(148, 210, 232, 0.16);
+  background: linear-gradient(112deg, rgba(34, 211, 238, 0.11), rgba(59, 130, 246, 0.045) 58%, rgba(249, 115, 22, 0.055));
+}
+
+/* A restrained mint/cyan/orange scan passes along the panel header while the
+   hologram is active, so the UI feels projected without flashing the page. */
+.tct3d-panel-head::after {
+  content: "";
+  position: absolute;
+  left: -40%;
+  bottom: 0;
+  width: 40%;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(103, 232, 249, 0.9), rgba(59, 130, 246, 0.8), rgba(249, 115, 22, 0.75), transparent);
+  filter: drop-shadow(0 0 5px rgba(34, 211, 238, 0.55));
+  animation: tct3d-header-sweep 4.6s ease-in-out infinite;
+}
+
+@keyframes tct3d-header-sweep {
+  from { transform: translateX(0); }
+  to { transform: translateX(350%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tct3d-panel-head::after { animation: none; }
+}
+
+.tct3d-avatar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f6fbff;
+  border: 1px solid rgba(103, 232, 249, 0.62);
+  display: grid;
+  place-items: center;
+  flex: none;
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.09), 0 0 13px rgba(34, 211, 238, 0.16);
+}
+
+.tct3d-avatar::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 1px solid rgba(125, 211, 252, 0.38);
+  border-right-color: rgba(249, 115, 22, 0.65);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: tct3d-avatar-ring 4.8s ease-in-out infinite;
+}
+
+.tct3d-avatar img { width: 33px; height: 29px; object-fit: contain; }
+
+@keyframes tct3d-avatar-ring {
+  0%, 100% { transform: scale(0.98); opacity: 0.48; }
+  50% { transform: scale(1.05); opacity: 0.86; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tct3d-avatar::after { animation: none; opacity: 0.65; }
+}
+
+.tct3d-panel-title { display: flex; flex-direction: column; line-height: 1.25; }
+.tct3d-panel-title strong { font-size: 14.5px; letter-spacing: 0.02em; }
+.tct3d-panel-title small { font-size: 11.5px; color: #8fd8f0; }
+
+.tct3d-status {
+  width: 8px;
+  height: 8px;
+  margin-left: auto;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.56);
+  flex: none;
+  animation: tct3d-live-pulse 3.2s ease-in-out infinite;
+}
+
+@keyframes tct3d-live-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(52, 211, 153, 0.5); transform: scale(0.92); }
+  50% { box-shadow: 0 0 13px rgba(52, 211, 153, 0.95); transform: scale(1.12); }
+}
+
+.tct3d-status-label {
+  margin-left: -5px;
+  color: rgba(226, 244, 255, 0.78);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.015em;
+}
+
+.tct3d-restart,
+.tct3d-close {
+  border: 1px solid rgba(103, 232, 249, 0.22);
+  background: rgba(8, 14, 34, 0.58);
+  color: #b7edfb;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 13px;
+  flex: none;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s, color 0.2s;
+}
+
+.tct3d-restart:hover:not(:disabled),
+.tct3d-close:hover {
+  background: rgba(34, 211, 238, 0.16);
+  border-color: rgba(103, 232, 249, 0.52);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.tct3d-restart:disabled { opacity: 0.4; cursor: default; }
+
+.tct3d-close {
+  color: #c0d7e5;
+}
+
+.tct3d-msgs {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 150px;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(103, 232, 249, 0.35) transparent;
+}
+
+.tct3d-msg {
+  max-width: 100%;
+  width: fit-content;
+  padding: 10px 13px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  border-radius: 15px;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  animation: tct3d-msg-in 0.3s ease both;
+}
+
+.tct3d-msg-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: 94%;
+}
+
+.tct3d-msg-row.bot { align-self: flex-start; }
+.tct3d-msg-row.user { align-self: flex-end; justify-content: flex-end; }
+
+.tct3d-msg-avatar {
+  flex: none;
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(103, 232, 249, 0.25);
+  border-radius: 9px;
+  background: linear-gradient(145deg, rgba(34, 211, 238, 0.15), rgba(249, 115, 22, 0.07));
+  color: #a5ecff;
+  font-size: 13px;
+  box-shadow: 0 4px 14px rgba(3, 16, 36, 0.32), 0 0 16px rgba(34, 211, 238, 0.08);
+}
+
+.tct3d-msg-stack {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tct3d-msg-row.user .tct3d-msg-stack { align-items: flex-end; }
+
+.tct3d-msg-meta {
+  padding: 0 3px;
+  color: rgba(183, 211, 229, 0.68);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.025em;
+}
+
+@keyframes tct3d-msg-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tct3d-msg { animation: none; }
+  .tct3d-status { animation: none; }
+}
+
+.tct3d-msg.bot {
+  background: linear-gradient(145deg, rgba(34, 211, 238, 0.105), rgba(20, 43, 68, 0.82) 52%, rgba(18, 36, 58, 0.9));
+  border: 1px solid rgba(103, 232, 249, 0.24);
+  border-bottom-left-radius: 5px;
+  color: #eafcff;
+  box-shadow: inset 2px 0 0 rgba(103, 232, 249, 0.46), 0 0 18px rgba(34, 211, 238, 0.045);
+}
+
+.tct3d-msg.user {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(249, 115, 22, 0.18));
+  border: 1px solid rgba(125, 211, 252, 0.33);
+  border-bottom-right-radius: 4px;
+  color: #f3fbff;
+}
+
+.tct3d-typing { display: flex; gap: 5px; align-items: center; padding: 12px 14px; min-width: 54px; }
+.tct3d-typing i {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #7de8ff; opacity: 0.4;
+  animation: tct3d-dot 1.1s ease-in-out infinite;
+}
+.tct3d-typing i:nth-child(2) { animation-delay: 0.15s; }
+.tct3d-typing i:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes tct3d-dot {
+  0%, 100% { opacity: 0.3; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-3px); }
+}
+
+.tct3d-nudge {
+  font-size: 12px;
+  color: #fecaca;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: 10px;
+  padding: 7px 11px;
+}
+
+.tct3d-suggestion-wrap {
+  padding: 0 14px 4px;
+}
+
+.tct3d-suggestion-label {
+  display: block;
+  margin: 0 0 7px 2px;
+  color: rgba(165, 211, 231, 0.58);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.tct3d-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 7px;
+  align-items: center;
+}
+
+.tct3d-chips button {
+  min-height: 31px;
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(103, 232, 249, 0.3);
+  background: rgba(34, 211, 238, 0.08);
+  color: #a5ecff;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.tct3d-chips button:hover:not(:disabled) {
+  background: rgba(34, 211, 238, 0.18);
+  border-color: rgba(249, 115, 22, 0.5);
+  color: #f6fdff;
+  transform: translateY(-1px);
+}
+
+.tct3d-chips button:disabled { opacity: 0.5; cursor: default; }
+
+.tct3d-input {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin: 7px 12px 4px;
+  padding: 6px 6px 6px 12px;
+  border: 1px solid rgba(103, 232, 249, 0.26);
+  border-radius: 16px;
+  background: rgba(5, 12, 29, 0.8);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.tct3d-input:focus-within {
+  border-color: rgba(103, 232, 190, 0.68);
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.09), 0 0 18px rgba(249, 115, 22, 0.055);
+}
+
+.tct3d-input textarea {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  min-height: 38px;
+  max-height: 92px;
+  resize: none;
+  padding: 10px 2px 8px;
+  border: none;
+  background: transparent;
+  color: #eafcff;
+  outline: none;
+  line-height: 1.4;
+  overflow-y: auto;
+  font-family: inherit;
+}
+
+.tct3d-input textarea::placeholder { color: rgba(165, 236, 255, 0.5); }
+
+.tct3d-input button {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  border: 1px solid rgba(103, 232, 249, 0.3);
+  background: linear-gradient(145deg, rgba(34, 211, 238, 0.2), rgba(59, 130, 246, 0.15) 68%, rgba(249, 115, 22, 0.12));
+  color: #b8f5ff;
+  font-size: 15px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: filter 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.tct3d-input button:hover:not(:disabled) { border-color: rgba(249, 115, 22, 0.5); color: #fff; filter: brightness(1.08); transform: translateY(-1px); box-shadow: 0 5px 15px rgba(34, 211, 238, 0.18); }
+.tct3d-input button:disabled { opacity: 0.45; cursor: default; }
+
+/* -------------------------- goodnight bubble ---------------------- */
+.tct3d-bubble {
+  position: absolute;
+  transform: translate(-50%, -110%);
+  background: rgba(10, 16, 38, 0.88);
+  border: 1px solid rgba(103, 232, 249, 0.4);
+  color: #eafcff;
+  font-size: 13.5px;
+  line-height: 1.45;
+  text-align: center;
+  padding: 10px 16px;
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 12px 34px rgba(2, 6, 23, 0.5), 0 0 24px rgba(34, 211, 238, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: none;
+  animation: tct3d-bubble-in 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  white-space: nowrap;
+}
+
+.tct3d-bubble-mobile {
+  transform: translateY(-50%);
+  border-radius: 14px;
+  border-top-left-radius: 4px;
+}
+
+@keyframes tct3d-bubble-in {
+  from { opacity: 0; transform: translate(-50%, -90%) scale(0.9); }
+  to { opacity: 1; transform: translate(-50%, -110%) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tct3d-bubble { animation: none; }
+}
+
+/* mobile — bottom sheet, robot stays visible above it */
+@media (max-width: 720px) {
+  .tct3d-panel {
+    right: 8px;
+    left: 8px;
+    top: auto;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    transform: none;
+    width: auto;
+    max-height: 50vh;
+  }
+
+  .tct3d-msgs { min-height: 90px; padding: 10px 12px; }
+
+  .tct3d-panel-in { animation-name: tct3d-panel-in-mobile; }
+  .tct3d-panel-out { animation-name: tct3d-panel-out-mobile; }
+
+  @keyframes tct3d-panel-in-mobile {
+    0% { opacity: 0; transform: translateY(24px) scale(0.14); filter: blur(10px); box-shadow: 0 0 0 rgba(34, 211, 238, 0); }
+    58% { opacity: 1; filter: blur(0); box-shadow: 0 0 26px rgba(34, 211, 238, 0.17), 0 0 36px rgba(249, 115, 22, 0.06); }
+    100% { opacity: 1; transform: none; filter: blur(0); }
+  }
+
+  @keyframes tct3d-panel-out-mobile {
+    from { opacity: 1; transform: none; filter: blur(0); }
+    to { opacity: 0; transform: translateY(22px) scale(0.14); filter: blur(10px); }
+  }
+
+  .tct3d-msg { font-size: 13px; }
+
+  .tct3d-bubble-mobile { animation-name: tct3d-bubble-in-mobile; }
+
+  @keyframes tct3d-bubble-in-mobile {
+    from { opacity: 0; transform: translateY(-35%) scale(0.9); }
+    to { opacity: 1; transform: translateY(-50%) scale(1); }
+  }
+}
+
+/* ==================================================================
+   Fallback robot (no WebGL) — SVG character on a cloud.
+   Visibility never depends on an animation: only motion does.
+   ================================================================== */
+.tct2d {
+  position: absolute;
+  width: 168px;
+  height: 178px;
+  transform: translate(-50%, -86%);
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+  filter: drop-shadow(0 16px 26px rgba(14, 23, 38, 0.16));
+}
+
+.tct2d:focus-visible {
+  outline: 2px solid rgba(13, 110, 253, 0.55);
+  outline-offset: 6px;
+  border-radius: 22px;
+}
+
+.tct2d-art {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: tct2d-float 4.6s ease-in-out infinite;
+}
+
+.tct2d-cloud-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.tct2d-person {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 3px;
+  width: 82px;
+  height: 105px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  animation: tct2d-float 4.6s ease-in-out infinite;
+}
+
+.tct2d-person-art {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+@keyframes tct2d-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.tct2d-halo {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  width: 150px;
+  height: 96px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(13, 110, 253, 0.16), rgba(6, 182, 212, 0.08) 52%, rgba(6, 182, 212, 0) 74%);
+  animation: tct2d-halo 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes tct2d-halo {
+  0%, 100% { opacity: 0.55; transform: translateX(-50%) scale(0.94); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.06); }
+}
+
+/* eyes: bright while awake, dimmed + scaled shut while asleep */
+.tct2d-eye {
+  transition: opacity 0.3s;
+  opacity: 0.5;
+}
+
+.tct2d.is-awake .tct2d-eye {
+  opacity: 1;
+  animation: tct2d-blink 5.2s ease-in-out infinite;
+}
+
+@keyframes tct2d-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.12); }
+}
+
+.tct2d-eyes { transform-origin: 100px 81px; }
+
+.tct2d-tip {
+  animation: tct2d-tip 2.4s ease-in-out infinite;
+  transform-origin: 100px 26px;
+}
+
+@keyframes tct2d-tip {
+  0%, 100% { opacity: 0.55; transform: scale(0.86); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+.tct2d-zzz { opacity: 0.85; }
+.tct2d.is-awake .tct2d-zzz { display: none; }
+
+.tct2d-smile { opacity: 0; }
+.tct2d.is-awake .tct2d-smile { opacity: 1; }
+
+/* logo badge — sits exactly over the ring the SVG draws at (100,139) of the
+   200×212 viewBox, which maps to 50% / 65.6% of the button box */
+.tct2d-badge {
+  position: absolute;
+  left: 50%;
+  top: 65.6%;
+  width: 13%;
+  height: auto;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.tct2d.is-busy .tct2d-tip { animation-duration: 1s; }
+.tct2d.is-busy .tct2d-art { animation-duration: 2.2s; }
+
+/* the hint chip — the 2D stand-in for the 3D halo, vanishes once used */
+.tct2d-chip {
+  position: absolute;
+  left: 50%;
+  top: -14px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: #fff;
+  color: var(--ink, #0e1726);
+  border: 1px solid rgba(13, 110, 253, 0.28);
+  box-shadow: 0 10px 24px rgba(14, 23, 38, 0.14);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  pointer-events: none;
+  animation: tct2d-chip 3.4s ease-in-out infinite;
+}
+
+@keyframes tct2d-chip {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, -4px); }
+}
+
+@media (max-width: 720px) {
+  .tct2d { width: 132px; height: 140px; }
+  .tct2d-person { top: 0; width: 68px; height: 88px; }
+  .tct2d-chip { top: -10px; font-size: 11px; padding: 5px 10px; }
+
+  /* the chat is a bottom sheet on phones and covers the corner — tuck the
+     robot away while it is open (visibility, not opacity: no transition can
+     leave it half-visible) */
+  .tct2d.is-open { visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tct2d-art,
+  .tct2d-person,
+  .tct2d-halo,
+  .tct2d-tip,
+  .tct2d-chip,
+  .tct2d.is-awake .tct2d-eye { animation: none; }
+  .tct2d.is-awake .tct2d-eye { opacity: 1; }
+}
+
+@media (max-width: 720px) and (max-height: 480px) {
+  .tct3d-panel { max-height: 48vh; }
+  .tct3d-panel-head { gap: 7px; padding: 9px 10px; }
+  .tct3d-avatar { width: 32px; height: 32px; }
+  .tct3d-msgs { min-height: 64px; padding: 8px 10px; }
+  .tct3d-suggestion-wrap { display: none; }
+}

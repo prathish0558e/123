@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TCT Fashion Hub | Boutique Dresses & Craft Classes in Coimbatore</title>
+    <meta
+      name="description"
+      content="TCT Fashion Hub — boutique dresses in Ganapathy, Coimbatore: kurti, saree, lehenga, blouse, gown and kids wear stitched to your measurements from Rs 899, plus certified craft classes with starter kit gifts."
+    />
+    <meta name="author" content="TCT Fashion Hub" />
+    <meta name="robots" content="index, follow" />
+    <meta name="geo.region" content="IN-TN" />
+    <meta name="geo.placename" content="Coimbatore" />
+    <meta name="geo.position" content="11.056739;76.975956" />
+    <meta name="ICBM" content="11.056739, 76.975956" />
+    <meta name="theme-color" content="#0d6efd" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/images/Logo.jpeg" />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="TCT Fashion Hub" />
+    <meta property="og:title" content="TCT Fashion Hub | Boutique Dresses & Craft Classes in Coimbatore" />
+    <meta property="og:description" content="Dresses, sarees, lehengas and blouses stitched to your measurements from Rs 899 — plus craft classes in tailoring, aari, embroidery and more." />
+    <meta property="og:locale" content="en_IN" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Organization / local business schema (domain-independent fields; the
+         canonical site URL is injected per route once VITE_SITE_URL is set) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": ["ClothingStore", "EducationalOrganization", "LocalBusiness"],
+        "name": "TCT Fashion Hub",
+        "alternateName": "TCT Fashion Academy Coimbatore",
+        "slogan": "Where Threads Meet Tradition",
+        "description": "Boutique dress shop and craft studio in Ganapathy, Coimbatore — kurtis, sarees, lehengas, blouses, gowns and kids wear stitched to measure, plus classes in tailoring, embroidery, aari work, jewellery making, saree pre-pleating, mehndi and resin art since 2021.",
+        "priceRange": "Rs 399 - Rs 45999",
+        "currenciesAccepted": "INR",
+        "paymentAccepted": "Cash, UPI",
+        "telephone": "+919384846922",
+        "email": "tctfashionhub@gmail.com",
+        "foundingDate": "2021",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "No. 215, Second Floor, Shakthi Nagar, Near ICICI Bank",
+          "addressLocality": "Ganapathy, Coimbatore",
+          "addressRegion": "Tamil Nadu",
+          "postalCode": "641006",
+          "addressCountry": "IN"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 11.056739,
+          "longitude": 76.975956
+        },
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "10:00",
+          "closes": "19:00"
+        },
+        "sameAs": [
+          "https://instagram.com/tct_fashion_hub",
+          "https://facebook.com/share/18dZzFyrWt",
+          "https://www.youtube.com/@TctFashionhub"
+        ]
+      }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+
+    <!-- Entry loading animation — inline so it paints before the JS bundle
+         arrives. Light blue + orange on white, dismissed from the script at
+         the end of <body>. -->
+    <style>
+      #boot-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(46% 42% at 12% 6%, rgba(13, 110, 253, 0.09), transparent 62%),
+          radial-gradient(42% 38% at 90% 94%, rgba(249, 115, 22, 0.1), transparent 62%),
+          #ffffff;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+      #boot-loader.bl-hide {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .bl-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+        padding: 0 20px;
+      }
+      .bl-orbit {
+        position: relative;
+        width: 112px;
+        height: 112px;
+        display: grid;
+        place-items: center;
+      }
+      .bl-arc {
+        position: absolute;
+        border-radius: 50%;
+        border: 4px solid transparent;
+      }
+      .bl-arc-blue {
+        inset: 0;
+        border-top-color: #0d6efd;
+        border-right-color: #0d6efd;
+        animation: bl-spin 1.1s linear infinite;
+      }
+      .bl-arc-orange {
+        inset: 15px;
+        border-bottom-color: #f97316;
+        border-left-color: #f97316;
+        animation: bl-spin 1.6s linear infinite reverse;
+      }
+      .bl-tile {
+        width: 78px;
+        height: 78px;
+        display: grid;
+        place-items: center;
+      }
+      .bl-logo {
+        width: 68px;
+        height: 68px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #ffffff;
+        box-shadow: 0 6px 18px rgba(13, 110, 253, 0.22);
+      }
+      .bl-brand {
+        margin: 0;
+        font: 700 12.5px/1.5 "Inter", system-ui, sans-serif;
+        letter-spacing: 0.3em;
+        color: #0e1726;
+        text-align: center;
+      }
+      .bl-sub {
+        margin: -10px 0 0;
+        font: 500 10.5px/1.5 "Inter", system-ui, sans-serif;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #64748b;
+        text-align: center;
+      }
+      .bl-bar {
+        position: relative;
+        width: 208px;
+        max-width: 74vw;
+        height: 5px;
+        border-radius: 999px;
+        background: #e9f1fe;
+        overflow: hidden;
+      }
+      /* the bar always reads as complete — the sweep is only polish, so this
+         still looks right when animations are paused or throttled */
+      .bl-bar span {
+        display: block;
+        height: 100%;
+        width: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #0d6efd 0%, #38bdf8 48%, #f97316 100%);
+      }
+      .bl-bar span::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 42%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+        animation: bl-sweep 1.4s ease-in-out infinite;
+      }
+      @keyframes bl-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes bl-sweep {
+        0% { transform: translateX(-120%); }
+        100% { transform: translateX(330%); }
+      }
+      @media (max-width: 480px) {
+        .bl-brand { font-size: 10.5px; letter-spacing: 0.22em; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .bl-arc-blue,
+        .bl-arc-orange,
+        .bl-bar span::after {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="boot-loader" role="status" aria-live="polite" aria-label="Loading TCT Fashion Hub">
+      <div class="bl-wrap">
+        <div class="bl-orbit">
+          <span class="bl-arc bl-arc-blue"></span>
+          <span class="bl-arc bl-arc-orange"></span>
+          <span class="bl-tile">
+            <img class="bl-logo" src="/images/Logo.png" alt="TCT Fashion Hub" />
+          </span>
+        </div>
+        <p class="bl-brand">TCT FASHION HUB</p>
+        <p class="bl-sub">Coimbatore · Since 2021</p>
+        <div class="bl-bar"><span></span></div>
+      </div>
+    </div>
+    <noscript><style>#boot-loader { display: none; }</style></noscript>
+    <div id="root"></div>
+    <script>
+      /* Dismiss the entry animation: at least 1.5s so it can be seen, never
+         longer than 2.6s so it can never hold the page hostage. */
+      (function () {
+        var el = document.getElementById("boot-loader");
+        if (!el) return;
+        var start = Date.now();
+        var MIN = 1500;
+        var MAX = 2600;
+        var done = false;
+        function hide() {
+          if (done) return;
+          done = true;
+          el.classList.add("bl-hide");
+          window.setTimeout(function () {
+            if (el.parentNode) el.parentNode.removeChild(el);
+          }, 750);
+        }
+        function soon() {
+          window.setTimeout(hide, Math.max(0, MIN - (Date.now() - start)));
+        }
+        if (document.readyState === "complete") soon();
+        else window.addEventListener("load", soon);
+        window.setTimeout(hide, MAX);
+      })();
+    </script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

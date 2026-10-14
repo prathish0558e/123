@@ -1,0 +1,434 @@
+{
+  "version": 2,
+  "updatedAt": "2026-10-14T07:29:19.344Z",
+  "dresses": [
+    {
+      "id": "cotton-aari-kurti",
+      "name": "Cotton Aari Kurti",
+      "category": "Kurti & Tops",
+      "startingPrice": 899,
+      "priceMax": 1499,
+      "mrp": 1099,
+      "image": "/images/dresses/kurti.svg",
+      "gallery": [],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "colors": [
+        "Indigo",
+        "Mustard",
+        "Rust"
+      ],
+      "fabric": "Pure cotton, hand aari yoke",
+      "badge": "Bestseller",
+      "description": "Straight-cut cotton kurti with a hand-embroidered aari yoke. Everyday comfort with festive detailing — stitched to your measurements in the studio.",
+      "featured": true,
+      "inStock": true,
+      "visible": true,
+      "sortOrder": 0,
+      "created_at": "2026-10-14T07:21:34.812Z",
+      "updated_at": "2026-10-14T07:21:34.812Z"
+    },
+    {
+      "id": "kanchi-soft-silk-saree",
+      "name": "Kanchipuram Soft Silk Saree",
+      "category": "Saree",
+      "startingPrice": 3000,
+      "priceMax": 4000,
+      "mrp": 10500,
+      "image": "/uploads/kanchipuram-soft-silk-saree-mv7sgxp9.png",
+      "gallery": [],
+      "sizes": [
+        "Free Size"
+      ],
+      "colors": [
+        "Peacock Blue",
+        "Maroon",
+        "Bottle Green"
+      ],
+      "fabric": "Soft silk with contrast zari border",
+      "badge": "Wedding Pick",
+      "description": "Traditional soft silk with a woven zari border and matching blouse piece. Free pre-pleating and draping done in the studio before pickup.",
+      "featured": true,
+      "inStock": true,
+      "visible": true,
+      "sortOrder": 1,
+      "created_at": "2026-10-14T06:51:41.033Z",
+      "updated_at": "2026-10-14T07:29:19.343Z"
+    },
+    {
+      "id": "bridal-bridal-lehenga",
+      "name": "Bridal Aari Lehenga",
+      "category": "Lehenga",
+      "startingPrice": 15999,
+      "priceMax": 45999,
+      "mrp": 18999,
+      "image": "/images/dresses/lehenga.svg",
+      "gallery": [],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "Custom"
+      ],
+      "colors": [
+        "Rose Gold",
+        "Wine",
+        "Ivory"
+      ],
+      "fabric": "Raw silk with hand aari & zardosi work",
+      "badge": "Made to Measure",
+      "description": "Fully hand-worked bridal lehenga with aari, zardosi and bead detailing. Three to six weeks of studio work, two fittings included, blouse and dupatta styled to match.",
+      "featured": true,
+      "inStock": true,
+      "visible": true,
+      "sortOrder": 2,
+      "created_at": "2026-10-14T07:21:34.812Z",
+      "updated_at": "2026-10-14T07:21:34.812Z"
+    },
+    {
+      "id": "silk-blouse-tailored",
+      "name": "Custom Silk Blouse",
+      "category": "Blouse",
+      "startingPrice": 749,
+      "priceMax": 2499,
+      "mrp": 899,
+      "image": "/images/dresses/blouse.svg",
+      "gallery": [],
+      "sizes": [
+        "32",
+        "34",
+        "36",
+        "38",
+        "40",
+        "42"
+      ],
+      "colors": [
+        "Any (match your saree)"
+      ],
+      "fabric": "Silk / brocade / cotton (customer's fabric welcome)",
+      "badge": "",
+      "description": "Perfectly fitted blouse with your choice of neck, sleeve and back design. Bring your own fabric or pick from ours; delivery in 3–5 days.",
+      "featured": false,
+      "inStock": true,
+      "visible": true,
+      "sortOrder": 3,
+      "created_at": "2026-10-14T07:21:34.812Z",
+      "updated_at": "2026-10-14T07:21:34.812Z"
+    },
+    {
+      "id": "embroidered-anarkali-gown",
+      "name": "Embroidered Anarkali Gown",
+      "category": "Gown",
+      "startingPrice": 4999,
+      "priceMax": 11999,
+      "mrp": 5999,
+      "image": "/images/dresses/gown.svg",
+      "gallery": [],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "Custom"
+      ],
+      "colors": [
+        "Emerald",
+        "Navy",
+        "Blush Pink"
+      ],
+      "fabric": "Georgette with thread embroidery",
+      "badge": "Reception Wear",
+      "description": "Floor-length Anarkali with embroidered bodice, net dupatta and concealed zip. Light on the shoulders, heavy on the compliments.",
+      "featured": false,
+      "inStock": true,
+      "visible": true,
+      "sortOrder": 4,
+      "created_at": "2026-10-14T07:21:34.812Z",
+      "updated_at": "2026-10-14T07:21:34.812Z"
+    },
+    {
+      "id": "kids-pattu-frock",
+      "name": "Kids Pattu Frock",
+      "category": "Kids Wear",
+      "startingPrice": 1299,
+      "priceMax": 2799,
+      "mrp": 1599,
+      "image": "/images/dresses/kids.svg",
+      "gallery": [],
+      "sizes": [
+        "1-2Y",
+        "3-4Y",
+        "5-6Y",
+        "7-8Y",
+        "9-10Y"
+      ],
+      "colors": [
+        "Pink",
+        "Yellow",
+        "Sky Blue"
+      ],
+      "fabric": "Art silk with soft cotton lining",
+      "badge": "Festive",
+      "description": "Festive pattu frock with a lined bodice so it never itches. Matching hair bow included — a favourite for temple visits and birthdays.",
+      "featured": false,
+      "inStock": true,
+      "visible": true,
+      "sortOrder": 5,
+      "created_at": "2026-10-14T07:21:34.812Z",
+      "updated_at": "2026-10-14T07:21:34.812Z"
+    },
+    {
+      "id": "georgette-dupatta",
+      "name": "Hand-Worked Georgette Dupatta",
+      "category": "Dupatta",
+      "startingPrice": 999,
+      "priceMax": 2999,
+      "mrp": 1199,
+      "image": "/images/dresses/dupatta.svg",
+      "gallery": [],
+      "sizes": [
+        "2.25 m",
+        "2.5 m"
+      ],
+      "colors": [
+        "Peach",
+        "Mint",
+        "Lavender"
+      ],
+      "fabric": "Georgette with mirror & sequin edging",
+      "badge": "",
+      "description": "Mirror and sequin edging hand-worked along all four sides. Mix and match with any plain saree or lehenga to lift the whole outfit.",
+      "featured": false,
+      "inStock": true,
+      "visible": true,
+      "sortOrder": 6,
+      "created_at": "2026-10-14T07:21:34.812Z",
+      "updated_at": "2026-10-14T07:21:34.812Z"
+    },
+    {
+      "id": "resin-jewellery-set",
+      "name": "Resin Art Jewellery Set",
+      "category": "Jewellery",
+      "startingPrice": 399,
+      "priceMax": 1299,
+      "mrp": 499,
+      "image": "/images/dresses/jewellery.svg",
+      "gallery": [],
+      "sizes": [
+        "One size"
+      ],
+      "colors": [
+        "Gold flake",
+        "Pressed flower",
+        "Ocean blue"
+      ],
+      "fabric": "Handmade resin with brass findings",
+      "badge": "Handmade",
+      "description": "Necklace and earring set cast and finished in our own studio. Feather-light, waterproof and made fresh after your order is confirmed.",
+      "featured": false,
+      "inStock": true,
+      "visible": true,
+      "sortOrder": 7,
+      "created_at": "2026-10-14T07:21:34.812Z",
+      "updated_at": "2026-10-14T07:21:34.812Z"
+    }
+  ],
+  "singleClasses": [
+    {
+      "id": "tailoring",
+      "name": "Tailoring Class",
+      "image": "/images/Tailoring1.jpg",
+      "duration": "1 Month",
+      "level": "Beginner friendly",
+      "gift": "Kit gift: measuring tape, chalk set & handbook",
+      "updated_at": "2026-10-14T07:21:34.814Z",
+      "created_at": "2026-10-14T07:21:34.814Z",
+      "price": 8000,
+      "visible": true
+    },
+    {
+      "id": "embroidery",
+      "name": "Embroidery Class",
+      "image": "/images/EMBRIODERY.jpg",
+      "duration": "1 Month",
+      "level": "All levels",
+      "gift": "Kit gift: 24-skein threads, needles & design sheets",
+      "updated_at": "2026-10-14T07:21:34.814Z",
+      "created_at": "2026-10-14T07:21:34.814Z",
+      "price": 7000,
+      "visible": true
+    },
+    {
+      "id": "aari",
+      "name": "Aari Work Class",
+      "image": "/images/Aari.jpg",
+      "duration": "1 Month",
+      "level": "All levels",
+      "gift": "Kit gift: aari needles, frame & zari threads",
+      "updated_at": "2026-10-14T07:21:34.814Z",
+      "created_at": "2026-10-14T07:21:34.814Z",
+      "price": 7000,
+      "visible": true
+    },
+    {
+      "id": "saree",
+      "name": "Saree Pre-Pleating",
+      "image": "/images/SAREEE PRE PLEATING.jpg",
+      "duration": "1 Month",
+      "level": "Beginner friendly",
+      "gift": "Kit gift: pleating board & measurement guide",
+      "updated_at": "2026-10-14T07:21:34.814Z",
+      "created_at": "2026-10-14T07:21:34.814Z",
+      "price": 2000,
+      "visible": true
+    },
+    {
+      "id": "mehndi",
+      "name": "Mehndi Class",
+      "image": "/images/Mehndi.jpg",
+      "duration": "1 Month",
+      "level": "Beginner friendly",
+      "gift": "Kit gift: organic cones, practice sheets & oils",
+      "updated_at": "2026-10-14T07:21:34.814Z",
+      "created_at": "2026-10-14T07:21:34.814Z",
+      "price": 4000,
+      "visible": true
+    },
+    {
+      "id": "jewellery",
+      "name": "Jewellery Making",
+      "image": "/images/JEWLERY MAKING.jpg",
+      "duration": "1 Month",
+      "level": "All levels",
+      "gift": "Kit gift: beads, findings & plier set",
+      "updated_at": "2026-10-14T07:21:34.814Z",
+      "created_at": "2026-10-14T07:21:34.814Z",
+      "price": 6000,
+      "visible": true
+    }
+  ],
+  "comboClasses": [
+    {
+      "id": "combo-signature",
+      "name": "Signature Combo — All 7 Crafts",
+      "image": "/images/combo/all-7.png",
+      "duration": "3 Months",
+      "level": "All levels",
+      "gift": "Complete artisan kit gift worth Rs 3,500",
+      "updated_at": "2026-10-14T07:21:34.815Z",
+      "created_at": "2026-10-14T07:21:34.815Z",
+      "badge": "Best Value",
+      "featured": true,
+      "items": [
+        "Tailoring Class",
+        "Embroidery Class",
+        "Aari Work Class",
+        "Saree Pre-Pleating",
+        "Mehndi Class",
+        "Jewellery Making",
+        "Resin Art"
+      ],
+      "total": 25000,
+      "visible": true
+    },
+    {
+      "id": "combo-embroidery-aari",
+      "name": "Embroidery + Aari Duo",
+      "image": "/images/combo/embroidery-aari.png",
+      "duration": "3 Months",
+      "level": "All levels",
+      "gift": "Combined kit gift worth Rs 1,200",
+      "updated_at": "2026-10-14T07:21:34.815Z",
+      "created_at": "2026-10-14T07:21:34.815Z",
+      "badge": "",
+      "featured": false,
+      "items": [
+        "Embroidery Class",
+        "Aari Work Class"
+      ],
+      "total": 15000,
+      "visible": true
+    },
+    {
+      "id": "combo-saree-mehndi",
+      "name": "Saree + Mehndi Duo",
+      "image": "/images/combo/saree-mehndi.png",
+      "duration": "3 Months",
+      "level": "Beginner friendly",
+      "gift": "Festive kit gift worth Rs 900",
+      "updated_at": "2026-10-14T07:21:34.815Z",
+      "created_at": "2026-10-14T07:21:34.815Z",
+      "badge": "",
+      "featured": false,
+      "items": [
+        "Saree Pre-Pleating",
+        "Mehndi Class"
+      ],
+      "total": 10000,
+      "visible": true
+    },
+    {
+      "id": "combo-tailoring-embroidery",
+      "name": "Tailoring + Embroidery Duo",
+      "image": "/images/combo/tailoring-embroidery.png",
+      "duration": "3 Months",
+      "level": "All levels",
+      "gift": "Duo kit gift worth Rs 1,000",
+      "updated_at": "2026-10-14T07:21:34.815Z",
+      "created_at": "2026-10-14T07:21:34.815Z",
+      "badge": "",
+      "featured": false,
+      "items": [
+        "Tailoring Class",
+        "Embroidery Class"
+      ],
+      "total": 20000,
+      "visible": true
+    },
+    {
+      "id": "combo-tailoring-aari-embroidery",
+      "name": "Tailoring + Aari + Embroidery Trio",
+      "image": "/images/combo/tailoring-aari-embroidery.png",
+      "duration": "3 Months",
+      "level": "All levels",
+      "gift": "Trio kit gift worth Rs 1,500",
+      "updated_at": "2026-10-14T07:21:34.815Z",
+      "created_at": "2026-10-14T07:21:34.815Z",
+      "badge": "",
+      "featured": false,
+      "items": [
+        "Tailoring Class",
+        "Aari Work Class",
+        "Embroidery Class"
+      ],
+      "total": 23000,
+      "visible": true
+    },
+    {
+      "id": "combo-saree-jewellery-resin",
+      "name": "Saree + Jewellery + Resin Art Trio",
+      "image": "/images/combo/saree-jewellery-resin.png",
+      "duration": "3 Months",
+      "level": "All levels",
+      "gift": "Trio kit gift worth Rs 1,400",
+      "updated_at": "2026-10-14T07:21:34.815Z",
+      "created_at": "2026-10-14T07:21:34.815Z",
+      "badge": "Featured Combo",
+      "featured": false,
+      "items": [
+        "Saree Pre-Pleating",
+        "Jewellery Making",
+        "Resin Art"
+      ],
+      "total": 22000,
+      "visible": true
+    }
+  ]
+}

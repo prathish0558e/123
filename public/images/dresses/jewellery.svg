@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Jewellery">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#fffbea"/>
+      <stop offset="1" stop-color="#fdf3d7"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.55">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="weave" width="26" height="26" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="26" stroke="#4a3406" stroke-opacity="0.05" stroke-width="2"/>
+    </pattern>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d97706"/>
+      <stop offset="1" stop-color="#f97316"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect width="800" height="1000" fill="url(#weave)"/>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+  <rect x="26" y="26" width="748" height="948" rx="30" fill="none" stroke="#4a3406" stroke-opacity="0.12" stroke-width="2"/>
+
+  <g stroke="#4a3406" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M232 300 Q400 566 568 300" stroke-width="8"/>
+      <path d="M264 322 Q400 528 536 322" stroke-width="4" stroke-opacity="0.5" stroke-dasharray="8 12"/>
+      <circle cx="400" cy="520" r="42" stroke-width="7"/>
+      <path d="M400 562 L400 640" stroke-width="6"/>
+      <path d="M400 640 Q368 700 400 740 Q432 700 400 640" stroke-width="5"/>
+      <path d="M232 300 L232 372" stroke-width="6"/>
+      <path d="M568 300 L568 372" stroke-width="6"/>
+      <path d="M232 372 Q232 452 268 470 Q296 442 268 388 Q252 372 232 372 Z" stroke-width="5"/>
+      <path d="M568 372 Q568 452 532 470 Q504 442 532 388 Q548 372 568 372 Z" stroke-width="5"/>
+      <circle cx="400" cy="520" r="14" fill="#f97316" stroke="none"/>
+      <circle cx="252" cy="404" r="7" fill="#0d6efd" stroke="none"/>
+      <circle cx="548" cy="404" r="7" fill="#0d6efd" stroke="none"/></g>
+
+  <rect x="354" y="850" width="92" height="5" rx="2.5" fill="url(#accent)"/>
+  <text x="400" y="896" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="40" fill="#4a3406">Jewellery</text>
+  <text x="400" y="934" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="19" letter-spacing="4" fill="#4a3406" fill-opacity="0.6" text-transform="uppercase">RESIN · HANDMADE</text>
+</svg>

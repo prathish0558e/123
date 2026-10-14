@@ -1,0 +1,148 @@
+// Starter dress catalogue for the TCT Fashion Hub boutique.
+//
+// This is only the SEED: on first boot backend/lib/catalog.js copies it into
+// backend/data/catalog.json, and from then on the admin panel is the source of
+// truth. Editing this file therefore does NOT change a running shop unless the
+// catalog store is removed (or you reset it from the admin panel).
+//
+// Images point at /images/dresses/*.svg artwork that ships with the project —
+// replace them with real product photos from the admin panel (upload or URL).
+
+module.exports = [
+  {
+    id: "cotton-aari-kurti",
+    name: "Cotton Aari Kurti",
+    category: "Kurti & Tops",
+    startingPrice: 899,
+    priceMax: 1499,
+    mrp: 1099,
+    image: "/images/dresses/kurti.svg",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    colors: ["Indigo", "Mustard", "Rust"],
+    fabric: "Pure cotton, hand aari yoke",
+    badge: "Bestseller",
+    featured: true,
+    inStock: true,
+    description:
+      "Straight-cut cotton kurti with a hand-embroidered aari yoke. Everyday comfort with festive detailing — stitched to your measurements in the studio.",
+  },
+  {
+    id: "kanchi-soft-silk-saree",
+    name: "Kanchipuram Soft Silk Saree",
+    category: "Saree",
+    startingPrice: 3499,
+    priceMax: 8999,
+    mrp: 4299,
+    image: "/images/dresses/saree.svg",
+    sizes: ["Free Size"],
+    colors: ["Peacock Blue", "Maroon", "Bottle Green"],
+    fabric: "Soft silk with contrast zari border",
+    badge: "Wedding Pick",
+    featured: true,
+    inStock: true,
+    description:
+      "Traditional soft silk with a woven zari border and matching blouse piece. Free pre-pleating and draping done in the studio before pickup.",
+  },
+  {
+    id: "bridal-bridal-lehenga",
+    name: "Bridal Aari Lehenga",
+    category: "Lehenga",
+    startingPrice: 15999,
+    priceMax: 45999,
+    mrp: 18999,
+    image: "/images/dresses/lehenga.svg",
+    sizes: ["XS", "S", "M", "L", "XL", "Custom"],
+    colors: ["Rose Gold", "Wine", "Ivory"],
+    fabric: "Raw silk with hand aari & zardosi work",
+    badge: "Made to Measure",
+    featured: true,
+    inStock: true,
+    description:
+      "Fully hand-worked bridal lehenga with aari, zardosi and bead detailing. Three to six weeks of studio work, two fittings included, blouse and dupatta styled to match.",
+  },
+  {
+    id: "silk-blouse-tailored",
+    name: "Custom Silk Blouse",
+    category: "Blouse",
+    startingPrice: 749,
+    priceMax: 2499,
+    mrp: 899,
+    image: "/images/dresses/blouse.svg",
+    sizes: ["32", "34", "36", "38", "40", "42"],
+    colors: ["Any (match your saree)"],
+    fabric: "Silk / brocade / cotton (customer's fabric welcome)",
+    badge: "",
+    featured: false,
+    inStock: true,
+    description:
+      "Perfectly fitted blouse with your choice of neck, sleeve and back design. Bring your own fabric or pick from ours; delivery in 3–5 days.",
+  },
+  {
+    id: "embroidered-anarkali-gown",
+    name: "Embroidered Anarkali Gown",
+    category: "Gown",
+    startingPrice: 4999,
+    priceMax: 11999,
+    mrp: 5999,
+    image: "/images/dresses/gown.svg",
+    sizes: ["S", "M", "L", "XL", "Custom"],
+    colors: ["Emerald", "Navy", "Blush Pink"],
+    fabric: "Georgette with thread embroidery",
+    badge: "Reception Wear",
+    featured: false,
+    inStock: true,
+    description:
+      "Floor-length Anarkali with embroidered bodice, net dupatta and concealed zip. Light on the shoulders, heavy on the compliments.",
+  },
+  {
+    id: "kids-pattu-frock",
+    name: "Kids Pattu Frock",
+    category: "Kids Wear",
+    startingPrice: 1299,
+    priceMax: 2799,
+    mrp: 1599,
+    image: "/images/dresses/kids.svg",
+    sizes: ["1-2Y", "3-4Y", "5-6Y", "7-8Y", "9-10Y"],
+    colors: ["Pink", "Yellow", "Sky Blue"],
+    fabric: "Art silk with soft cotton lining",
+    badge: "Festive",
+    featured: false,
+    inStock: true,
+    description:
+      "Festive pattu frock with a lined bodice so it never itches. Matching hair bow included — a favourite for temple visits and birthdays.",
+  },
+  {
+    id: "georgette-dupatta",
+    name: "Hand-Worked Georgette Dupatta",
+    category: "Dupatta",
+    startingPrice: 999,
+    priceMax: 2999,
+    mrp: 1199,
+    image: "/images/dresses/dupatta.svg",
+    sizes: ["2.25 m", "2.5 m"],
+    colors: ["Peach", "Mint", "Lavender"],
+    fabric: "Georgette with mirror & sequin edging",
+    badge: "",
+    featured: false,
+    inStock: true,
+    description:
+      "Mirror and sequin edging hand-worked along all four sides. Mix and match with any plain saree or lehenga to lift the whole outfit.",
+  },
+  {
+    id: "resin-jewellery-set",
+    name: "Resin Art Jewellery Set",
+    category: "Jewellery",
+    startingPrice: 399,
+    priceMax: 1299,
+    mrp: 499,
+    image: "/images/dresses/jewellery.svg",
+    sizes: ["One size"],
+    colors: ["Gold flake", "Pressed flower", "Ocean blue"],
+    fabric: "Handmade resin with brass findings",
+    badge: "Handmade",
+    featured: false,
+    inStock: true,
+    description:
+      "Necklace and earring set cast and finished in our own studio. Feather-light, waterproof and made fresh after your order is confirmed.",
+  },
+];

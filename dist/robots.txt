@@ -1,0 +1,5 @@
+# TCT Fashion Hub — no production domain configured yet.
+# Set VITE_SITE_URL in .env (e.g. VITE_SITE_URL=https://tctfashionhub.in)
+# and re-run `npm run build` to publish the sitemap reference.
+User-agent: *
+Allow: /

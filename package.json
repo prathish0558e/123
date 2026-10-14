@@ -1,0 +1,35 @@
+{
+  "name": "tct-garment-fashion",
+  "version": "1.0.0",
+  "description": "TCT Garment Fashion - classes & pricing website",
+  "private": true,
+  "main": "backend/server.js",
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c yellow,cyan \"npm:dev:node\" \"npm:dev:react\"",
+    "dev:node": "node backend/server.js",
+    "dev:react": "vite",
+    "build": "vite build && node scripts/generate-seo.mjs",
+    "preview": "vite preview",
+    "seo:generate": "node scripts/generate-seo.mjs",
+    "seo:check": "node scripts/seo-check.mjs",
+    "dress:art": "node scripts/generate-dress-art.mjs"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^8.17.10",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "gsap": "^3.12.5",
+    "qrcode.react": "^4.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.4",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^8.2.2",
+    "vite": "^5.4.8"
+  }
+}
