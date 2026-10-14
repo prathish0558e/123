@@ -446,6 +446,27 @@
 
 .tct3d-chips button:disabled { opacity: 0.5; cursor: default; }
 
+.tct3d-finish-shopping {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: calc(100% - 24px);
+  margin: 8px 12px 4px;
+  padding: 9px 12px;
+  border: 1px solid rgba(249, 115, 22, .36);
+  border-radius: 12px;
+  background: linear-gradient(110deg, rgba(249, 115, 22, .19), rgba(34, 211, 238, .12));
+  color: #f0fbff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: transform .18s ease, filter .18s ease;
+}
+.tct3d-finish-shopping:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.12); }
+.tct3d-finish-shopping:disabled { opacity: .5; cursor: default; }
+
 .tct3d-input {
   display: flex;
   align-items: flex-end;

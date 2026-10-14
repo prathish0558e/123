@@ -5,14 +5,20 @@ import Footer from "./components/Footer.jsx";
 import WhatsAppFloat from "./components/WhatsAppFloat.jsx";
 import ToTop from "./components/ToTop.jsx";
 import HomePage from "./pages/HomePage.jsx";
+import ShopPage from "./pages/ShopPage.jsx";
+import ProductPage from "./pages/ProductPage.jsx";
 import ClassesPage from "./pages/ClassesPage.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
 import EnquirePage from "./pages/EnquirePage.jsx";
+import CartPage from "./pages/CartPage.jsx";
+import CheckoutPage from "./pages/CheckoutPage.jsx";
+import AccountPage from "./pages/AccountPage.jsx";
+import OrderPage from "./pages/OrderPage.jsx";
+import PolicyPage from "./pages/PolicyPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
 import AdminPage from "./pages/admin/AdminPage.jsx";
 import TctMascot from "./mascot/TctMascot.jsx";
 import StreetMascot from "./mascot/StreetMascot.jsx";
-import LoginPage from "./pages/LoginPage.jsx";
-import CartPage from "./pages/CartPage.jsx";
 import { CustomerProvider } from "./components/CustomerProvider.jsx";
 
 function ScrollToTop() {
@@ -100,11 +106,20 @@ export default function App() {
         <SiteChrome>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/shop" element={<ShopPage />} />
+            <Route path="/shop/:id" element={<ProductPage />} />
             <Route path="/classes" element={<ClassesPage />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/enquire" element={<EnquirePage />} />
             <Route path="/cart" element={<CartPage />} />
-            <Route path="/enquire" element={<LoginPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/orders/:id" element={<OrderPage />} />
+            <Route path="/account" element={<AccountPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/privacy" element={<PolicyPage kind="privacy" />} />
+            <Route path="/terms" element={<PolicyPage kind="terms" />} />
+            <Route path="/returns" element={<PolicyPage kind="returns" />} />
+            {/* The studio panel has its own separate sign-in. */}
             <Route path="/admin" element={<AdminPage />} />
             <Route path="*" element={<HomePage />} />
           </Routes>

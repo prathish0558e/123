@@ -3,11 +3,17 @@ import { COMPANY } from "../data/content.js";
 
 const QUICK_LINKS = [
   { label: "Home", to: "/" },
-  { label: "Shop the Collection", hash: "/#shop" },
+  { label: "Shop the Collection", to: "/shop" },
   { label: "Classes & Combos", to: "/classes" },
   { label: "About the Studio", to: "/about" },
-  { label: "Login", to: "/login" },
+  { label: "My Orders", to: "/account" },
   /* No public /admin link — the studio panel is direct-URL only. */
+];
+
+const POLICY_LINKS = [
+  { label: "Privacy Policy", to: "/privacy" },
+  { label: "Return & Refund Policy", to: "/returns" },
+  { label: "Terms of Service", to: "/terms" },
 ];
 
 export default function Footer() {
@@ -107,6 +113,13 @@ export default function Footer() {
           <span>
             © {new Date().getFullYear()} TCT Fashion Hub. All Rights Reserved.
           </span>
+          <nav className="footer-policies" aria-label="Policies">
+            {POLICY_LINKS.map((l) => (
+              <Link key={l.to} to={l.to}>
+                {l.label}
+              </Link>
+            ))}
+          </nav>
           <span>Designed &amp; Engineered in Coimbatore</span>
         </div>
       </div>

@@ -18,6 +18,7 @@ const whatsapp = require("./services/whatsapp");
 const auth = require("./lib/auth");
 const catalog = require("./lib/catalog");
 const customers = require("./lib/customers");
+const google = require("./lib/google");
 
 // Studio contact details stay hot-reloadable from backend/data/pricing.js,
 // while the dresses + craft classes now come from the live catalog store
@@ -212,15 +213,105 @@ app.get("/api/customer/session", (req, res) => {
   res.json({ ok: Boolean(req.customer), user: customers.publicUser(req.customer) });
 });
 
+// ---- Sign in with Google -------------------------------------------------
+// The browser posts the Google ID token; the server verifies it with Google
+// (audience + verified email) before any local account or session exists.
+app.get("/api/customer/config", (_req, res) => {
+  res.json({ ok: true, googleClientId: google.clientId() });
+});
+
+app.post("/api/customer/google", async (req, res) => {
+  const verified = await google.verifyIdToken(req.body?.credential || req.body?.idToken);
+  if (!verified.ok) {
+    return res.status(verified.code).json({ ok: false, error: verified.error });
+  }
+  const user = customers.upsertGoogleUser(verified.profile);
+  if (!user) {
+    return res.status(400).json({ ok: false, error: "That Google account could not be linked." });
+  }
+  const token = customers.createSession(user);
+  res.setHeader("Set-Cookie", customers.cookieHeader(token));
+  res.json({ ok: true, user: customers.publicUser(user) });
+});
+
+// ---- Saved delivery addresses -------------------------------------------
+app.get("/api/customer/addresses", customers.requireCustomer, (req, res) => {
+  res.json({ ok: true, addresses: customers.publicUser(req.customer).addresses });
+});
+
+app.post(
+  "/api/customer/addresses",
+  customers.requireCustomer,
+  customers.requireSameSiteHeader,
+  (req, res) => {
+    const result = customers.validateAddress(req.body || {});
+    if (!result.ok) {
+      return res
+        .status(400)
+        .json({ ok: false, error: "Please check the address details.", errors: result.errors });
+    }
+    const saved = customers.addAddress(req.customer, result.data);
+    res.status(201).json({ ok: true, address: saved.record, addresses: saved.addresses });
+  }
+);
+
+app.delete(
+  "/api/customer/addresses/:id",
+  customers.requireCustomer,
+  customers.requireSameSiteHeader,
+  (req, res) => {
+    res.json({ ok: true, addresses: customers.removeAddress(req.customer, req.params.id) });
+  }
+);
+
+// ---- Orders --------------------------------------------------------------
+// Payment: Cash on Delivery is the only live option. Every other method is
+// answered with a clear "unavailable" so the UI can never place an order the
+// studio cannot honour.
 app.post(
   "/api/customer/orders",
   customers.requireCustomer,
   customers.requireSameSiteHeader,
   (req, res) => {
-    const requested = Array.isArray(req.body?.items) ? req.body.items : [];
+    const body = req.body || {};
+    const requested = Array.isArray(body.items) ? body.items : [];
     if (!requested.length || requested.length > 30) {
-      return res.status(400).json({ ok: false, error: "Your cart is empty or too large." });
+      return res.status(400).json({ ok: false, error: "Your bag is empty or too large." });
     }
+
+    const method = String(body.payment?.method || "cod").toLowerCase();
+    if (method !== "cod") {
+      return res.status(400).json({
+        ok: false,
+        error: "Only Cash on Delivery is available right now.",
+      });
+    }
+
+    // Delivery address: a saved one, or a new one that we also store on the
+    // account so the customer does not retype it next time.
+    let address = null;
+    if (body.addressId) {
+      address =
+        (req.customer.addresses || []).find((a) => a.id === body.addressId) || null;
+      if (!address) {
+        return res.status(400).json({ ok: false, error: "That saved address no longer exists." });
+      }
+    } else {
+      const check = customers.validateAddress(body.address || {});
+      if (!check.ok) {
+        return res.status(400).json({
+          ok: false,
+          error: "Please complete your delivery address.",
+          errors: check.errors,
+        });
+      }
+      if (body.saveAddress !== false) {
+        address = customers.addAddress(req.customer, check.data).record;
+      } else {
+        address = check.data;
+      }
+    }
+
     const pricing = catalog.listClasses();
     const products = [
       ...(pricing.singleClasses || []).map((item) => ({ ...item, productType: "class", price: Number(item.price) })),
@@ -234,13 +325,64 @@ app.post(
       );
       const quantity = Math.max(1, Math.min(10, Number(requestedItem.quantity) || 1));
       if (!product || product.price <= 0) {
-        return res.status(400).json({ ok: false, error: "One or more cart items are no longer available." });
+        return res.status(400).json({ ok: false, error: "One or more bag items are no longer available." });
       }
-      items.push({ type: product.productType, id: product.id, name: product.name, price: product.price, quantity });
+      // A stitched outfit needs a size — and it has to be one we offer.
+      let size = String(requestedItem.size || "").trim().slice(0, 20);
+      if (product.productType === "dress" && Array.isArray(product.sizes) && product.sizes.length) {
+        if (!size) {
+          return res.status(400).json({ ok: false, error: `Choose a size for ${product.name}.` });
+        }
+        if (!product.sizes.includes(size)) {
+          return res.status(400).json({ ok: false, error: `Size ${size} is not available for ${product.name}.` });
+        }
+      }
+      items.push({
+        type: product.productType,
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity,
+        size,
+        image: product.image || "",
+      });
     }
-    const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const order = customers.createOrder(req.customer, items, total);
+    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const shipping = 0; // stitched in Coimbatore, delivered free in India
+    const order = customers.createOrder(
+      req.customer,
+      items,
+      { subtotal, shipping, total: subtotal + shipping },
+      { address }
+    );
     res.status(201).json({ ok: true, order });
+  }
+);
+
+app.get("/api/customer/orders", customers.requireCustomer, (req, res) => {
+  res.json({ ok: true, orders: customers.listOrdersFor(req.customer.id) });
+});
+
+app.get("/api/customer/orders/:id", customers.requireCustomer, (req, res) => {
+  const order = customers.getOrderFor(req.customer.id, req.params.id);
+  if (!order) return res.status(404).json({ ok: false, error: "Order not found." });
+  res.json({ ok: true, order });
+});
+
+// Return request — one day after the order, size/fitting or damage only.
+app.post(
+  "/api/customer/orders/:id/return",
+  customers.requireCustomer,
+  customers.requireSameSiteHeader,
+  (req, res) => {
+    const result = customers.requestReturn(req.customer.id, req.params.id, {
+      reason: req.body?.reason,
+      note: req.body?.note,
+    });
+    if (!result.ok) {
+      return res.status(result.code).json({ ok: false, error: result.error });
+    }
+    res.json({ ok: true, order: result.order });
   }
 );
 
@@ -542,8 +684,40 @@ app.get("/api/admin/customers", adminGuard, (_req, res) =>
 );
 
 app.get("/api/admin/orders", adminGuard, (_req, res) =>
-  res.json({ ok: true, orders: customers.readOrders().slice().reverse() })
+  res.json({
+    ok: true,
+    statuses: customers.ORDER_STATUSES,
+    return_reasons: customers.RETURN_REASONS,
+    orders: customers
+      .readOrders()
+      .slice()
+      .reverse()
+      .map(customers.publicOrder),
+  })
 );
+
+// Move an order along its journey — this is what the customer's tracking
+// timeline shows, so it is admin-only and validated against the status list.
+app.post("/api/admin/orders/:id/status", adminWrite, (req, res) => {
+  const updated = customers.setOrderStatus(req.params.id, String(req.body?.status || ""));
+  if (!updated) {
+    return res.status(400).json({ ok: false, error: "Unknown order or status." });
+  }
+  res.json({ ok: true, order: updated });
+});
+
+// Approve or decline a return that the customer requested.
+app.post("/api/admin/orders/:id/return", adminWrite, (req, res) => {
+  const decision = String(req.body?.decision || "");
+  if (!["approved", "rejected"].includes(decision)) {
+    return res.status(400).json({ ok: false, error: "Decision must be approved or rejected." });
+  }
+  const updated = customers.resolveReturn(req.params.id, decision);
+  if (!updated) {
+    return res.status(404).json({ ok: false, error: "No pending return for this order." });
+  }
+  res.json({ ok: true, order: updated });
+});
 
 app.patch("/api/admin/enquiries/:id", adminWrite, (req, res) => {
   const status = String(req.body?.status || "").trim();

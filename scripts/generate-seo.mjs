@@ -33,18 +33,61 @@ function readEnvFile(path) {
   return out;
 }
 
+const escapeXml = (value) =>
+  String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+
 const env = { ...readEnvFile(join(root, ".env")), ...process.env };
 const SITE_URL = String(env.VITE_SITE_URL || "")
   .trim()
   .replace(/\/+$/, "");
 
-// /admin is deliberately absent — it is a private, noindex panel.
+const today = new Date().toISOString().slice(0, 10);
+
+// /admin is deliberately absent — it is a private, noindex panel. The bag,
+// checkout, account and order pages are noindex too (nothing to crawl).
 const ROUTES = [
   { path: "/", priority: "1.0", changefreq: "weekly" },
+  { path: "/shop", priority: "0.95", changefreq: "daily" },
   { path: "/classes", priority: "0.9", changefreq: "weekly" },
   { path: "/about", priority: "0.7", changefreq: "monthly" },
   { path: "/enquire", priority: "0.8", changefreq: "monthly" },
+  { path: "/privacy", priority: "0.3", changefreq: "yearly" },
+  { path: "/returns", priority: "0.4", changefreq: "yearly" },
+  { path: "/terms", priority: "0.3", changefreq: "yearly" },
 ];
+
+/*
+ * Every visible boutique design gets its own crawlable URL. The catalogue the
+ * admin panel edits is the source, so adding a dress publishes its page to the
+ * sitemap on the next build without anybody touching a route list.
+ */
+function productRoutes() {
+  const storePath = join(root, "backend", "data", "catalog.json");
+  if (!existsSync(storePath)) return [];
+  try {
+    const catalog = JSON.parse(readFileSync(storePath, "utf8"));
+    const lastmod = String(catalog.updatedAt || today).slice(0, 10);
+    return (catalog.dresses || [])
+      .filter((dress) => dress.visible !== false && dress.id)
+      .map((dress) => ({
+        path: `/shop/${dress.id}`,
+        priority: "0.8",
+        changefreq: "weekly",
+        lastmod,
+        image: /^https?:\/\//i.test(dress.image || "") ? null : dress.image || null,
+        title: dress.name,
+      }));
+  } catch {
+    return [];
+  }
+}
+
+const PRODUCT_ROUTES = productRoutes();
+const ALL_ROUTES = [...ROUTES, ...PRODUCT_ROUTES];
 
 const robotsTxt = SITE_URL
   ? `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}/sitemap.xml\n`
@@ -53,16 +96,25 @@ const robotsTxt = SITE_URL
     `# and re-run \`npm run build\` to publish the sitemap reference.\n` +
     `User-agent: *\nAllow: /\n`;
 
-const today = new Date().toISOString().slice(0, 10);
 const sitemapXml = SITE_URL
   ? `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${ROUTES.map(
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${ALL_ROUTES.map(
     (r) => `  <url>
     <loc>${SITE_URL}${r.path}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${r.lastmod || today}</lastmod>
     <changefreq>${r.changefreq}</changefreq>
-    <priority>${r.priority}</priority>
+    <priority>${r.priority}</priority>${
+      r.image
+        ? `
+    <image:image>
+      <image:loc>${SITE_URL}${r.image}</image:loc>${
+        r.title ? `\n      <image:title>${escapeXml(r.title)}</image:title>` : ""
+      }
+    </image:image>`
+        : ""
+    }
   </url>`
   ).join("\n")}
 </urlset>
@@ -125,6 +177,6 @@ if (existsSync(distDir)) {
 
 console.log(
   SITE_URL
-    ? `[seo] robots.txt + sitemap.xml generated for ${SITE_URL}`
+    ? `[seo] robots.txt + sitemap.xml generated for ${SITE_URL} (${ALL_ROUTES.length} URLs, ${PRODUCT_ROUTES.length} of them product pages)`
     : "[seo] VITE_SITE_URL not set — robots.txt written without a sitemap."
 );

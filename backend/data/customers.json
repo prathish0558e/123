@@ -1,0 +1,63 @@
+{
+  "users": [
+    {
+      "id": "c-3272ac30813df1a3",
+      "name": "Test Buyer",
+      "email": "test.buyer@example.com",
+      "phone": "9876543210",
+      "picture": "",
+      "google_id": "",
+      "addresses": [
+        {
+          "id": "ad-156f5b95",
+          "name": "Priya Raman",
+          "phone": "9876501234",
+          "pincode": "641006",
+          "line1": "44 Bharathi Street, Gandhipuram",
+          "line2": "",
+          "city": "Coimbatore",
+          "state": "Tamil Nadu",
+          "landmark": "",
+          "type": "home",
+          "created_at": "2026-10-14T18:17:07.887Z"
+        },
+        {
+          "id": "ad-afa67f5d",
+          "name": "Test Buyer",
+          "phone": "9876543210",
+          "pincode": "641006",
+          "line1": "12 Gandhi Street",
+          "line2": "",
+          "city": "Coimbatore",
+          "state": "Tamil Nadu",
+          "landmark": "",
+          "type": "home",
+          "created_at": "2026-10-14T17:36:23.820Z"
+        },
+        {
+          "id": "ad-c369f8b2",
+          "name": "Test Buyer",
+          "phone": "9876543210",
+          "pincode": "641006",
+          "line1": "12 Gandhi Street",
+          "line2": "",
+          "city": "Coimbatore",
+          "state": "Tamil Nadu",
+          "landmark": "",
+          "type": "home",
+          "created_at": "2026-10-14T17:36:23.658Z"
+        }
+      ],
+      "salt": "7670c3d6b074ade0f3aef40286f0aab2",
+      "hash": "06162f9e51327d6e5a4c1e1988a13dca3877acdc5a97a43025be2a7c6514bdf6eec6e39c23520f40d15044ff3396d7584e7121d44565629b97878c9985774f47",
+      "algo": "scrypt",
+      "N": 16384,
+      "r": 8,
+      "p": 1,
+      "keylen": 64,
+      "updated_at": "2026-10-14T17:36:23.526Z",
+      "created_at": "2026-10-14T17:36:23.526Z",
+      "last_login_at": "2026-10-14T18:07:24.412Z"
+    }
+  ]
+}

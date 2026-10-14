@@ -7,8 +7,20 @@ export function CustomerProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const refresh = async () => {
+    try {
+      const data = await customerApi.session();
+      setUser(data.ok ? data.user : null);
+      return data.user;
+    } catch {
+      setUser(null);
+      return null;
+    }
+  };
+
   useEffect(() => {
-    customerApi.session().then((data) => setUser(data.ok ? data.user : null)).catch(() => setUser(null)).finally(() => setLoading(false));
+    refresh().finally(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const value = useMemo(
@@ -29,6 +41,13 @@ export function CustomerProvider({ children }) {
         await customerApi.logout();
         setUser(null);
       },
+      /** Continue with Google — the server has already verified the token. */
+      googleSignIn: async (credential) => {
+        const data = await customerApi.google(credential);
+        setUser(data.user);
+        return data.user;
+      },
+      refresh,
     }),
     [user, loading]
   );

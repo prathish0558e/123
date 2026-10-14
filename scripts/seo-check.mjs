@@ -82,7 +82,15 @@ for (const f of assets.filter((a) => a.endsWith(".js"))) {
 add("Per-route useSeo wiring", bundle.includes("Craft Studio in Ganapathy"));
 add("Course structured data (live prices)", bundle.includes("EducationalOrganization"));
 add("Boutique product schema (live prices)", bundle.includes("TCT Fashion Hub boutique collection"));
+add("Per-product schema on product pages", bundle.includes("product-jsonld"));
 add("Admin panel is noindex", bundle.includes("noindex, nofollow"));
+add("Bag / checkout / account are noindex", bundle.includes("noindex, follow") || bundle.includes("noindex, nofollow"));
+add("Privacy policy page", bundle.includes("Privacy Policy"));
+add("Return policy page (1-day, size/damage)", bundle.includes("Return & Refund Policy"));
+add("Terms of service page", bundle.includes("Terms of Service"));
+add("Easy sign-in (Continue with Google)", bundle.includes("Continue with Google"));
+add("Cash on Delivery messaging", bundle.includes("Cash on Delivery"));
+add("Order tracking timeline", bundle.includes("Order placed"));
 add("Canonical helper present", bundle.includes("canonical") || html.includes('rel="canonical"'));
 
 // --- robots / sitemap consistency -------------------------------------------
@@ -98,6 +106,20 @@ if (SITE_URL) {
   add("sitemap excludes /admin", !sitemap.includes(`${SITE_URL}/admin`));
   add("sitemap lists /about", sitemap.includes(`${SITE_URL}/about`));
   add("sitemap lists /enquire", sitemap.includes(`${SITE_URL}/enquire`));
+  add("sitemap lists /shop", sitemap.includes(`<loc>${SITE_URL}/shop</loc>`));
+  add(
+    "sitemap lists product pages",
+    /<loc>[^<]+\/shop\/[a-z0-9-]+<\/loc>/i.test(sitemap)
+  );
+  add("sitemap lists /privacy", sitemap.includes(`${SITE_URL}/privacy`));
+  add("sitemap lists /returns", sitemap.includes(`${SITE_URL}/returns`));
+  add("sitemap lists /terms", sitemap.includes(`${SITE_URL}/terms`));
+  add("sitemap excludes /checkout", !sitemap.includes("/checkout"));
+  add("sitemap excludes /cart", !sitemap.includes(`${SITE_URL}/cart`));
+  add(
+    "product URLs carry images",
+    sitemap.includes("<image:loc>") || !/<loc>[^<]+\/shop\/[a-z0-9-]+<\/loc>/i.test(sitemap)
+  );
   add("robots.txt references sitemap", robots.includes(`Sitemap: ${SITE_URL}/sitemap.xml`));
 } else {
   add(

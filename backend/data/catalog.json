@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-10-14T07:29:19.344Z",
+  "updatedAt": "2026-10-14T18:23:30.100Z",
   "dresses": [
     {
       "id": "cotton-aari-kurti",
@@ -39,7 +39,7 @@
       "category": "Saree",
       "startingPrice": 3000,
       "priceMax": 4000,
-      "mrp": 10500,
+      "mrp": 3600,
       "image": "/uploads/kanchipuram-soft-silk-saree-mv7sgxp9.png",
       "gallery": [],
       "sizes": [

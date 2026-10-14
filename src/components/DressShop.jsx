@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import DressFlipCard from "./DressFlipCard.jsx";
 import { SectionHead } from "./Reveal.jsx";
 import { inr } from "../lib/shop.js";
@@ -9,6 +10,9 @@ import { inr } from "../lib/shop.js";
  * Everything is driven by the live catalogue (props come from the parent, which
  * keeps them fresh through useLiveCatalog) — search, category and price filters
  * and sorting are pure client-side so browsing stays instant.
+ *
+ * The filters live in the URL (?q=&cat=&band=&sort=), so the hero search box,
+ * a shared link and the browser back button all agree on what is being shown.
  */
 const SORTS = {
   featured: "Featured first",
@@ -39,15 +43,27 @@ function SkeletonCard() {
   );
 }
 
-export default function DressShop({ dresses = [], categories = [], loading = false }) {
-  const [category, setCategory] = useState("All");
-  const [band, setBand] = useState("all");
-  const [query, setQuery] = useState("");
-  const [sort, setSort] = useState("featured");
+export default function DressShop({ dresses = [], categories = [], loading = false, variant = "home" }) {
+  const [params, setParams] = useSearchParams();
+
+  const category = params.get("cat") || "All";
+  const band = params.get("band") || "all";
+  const query = params.get("q") || "";
+  const sort = params.get("sort") || "featured";
+
+  /** One writer for every filter, so the URL never drifts from the UI. */
+  const setFilter = (patch) => {
+    const next = new URLSearchParams(params);
+    for (const [key, value] of Object.entries(patch)) {
+      if (!value || value === "all" || (key === "cat" && value === "All")) next.delete(key);
+      else next.set(key, value);
+    }
+    setParams(next, { replace: true });
+  };
 
   const activeBand = BANDS.find((b) => b.id === band) || BANDS[0];
 
-  const matches = (d) => {
+  const isVisible = (d) => {
     if (category !== "All" && d.category !== category) return false;
     if (!activeBand.test(Number(d.startingPrice) || 0)) return false;
     const q = query.trim().toLowerCase();
@@ -60,7 +76,7 @@ export default function DressShop({ dresses = [], categories = [], loading = fal
   };
 
   const visible = useMemo(() => {
-    const list = dresses.filter(matches);
+    const list = dresses.filter(isVisible);
     const byName = (a, b) => String(a.name).localeCompare(String(b.name));
     switch (sort) {
       case "price-asc":
@@ -81,28 +97,26 @@ export default function DressShop({ dresses = [], categories = [], loading = fal
   const prices = dresses.map((d) => Number(d.startingPrice) || 0).filter((p) => p > 0);
   const cheapest = prices.length ? Math.min(...prices) : 0;
   const filtersActive = category !== "All" || band !== "all" || query.trim() !== "";
-  const resetAll = () => {
-    setCategory("All");
-    setBand("all");
-    setQuery("");
-  };
+  const resetAll = () => setFilter({ cat: "", band: "", q: "" });
 
   const bandCount = (b) => dresses.filter((d) => b.test(Number(d.startingPrice) || 0)).length;
 
   return (
-    <section id="shop" className="section soft">
+    <section id="shop" className={`section soft shop-${variant}`}>
       <div className="container">
-        <SectionHead
-          eyebrow="The boutique"
-          title="Our Dress Collection"
-          text={
-            dresses.length
-              ? `${dresses.length} designs in the studio right now — starting at ${
-                  cheapest ? inr(cheapest) : "—"
-                }. Tap any card to flip it and see sizes, colours and the full price range.`
-              : "Stitched to your measurements in Ganapathy, Coimbatore."
-          }
-        />
+        {variant === "home" ? (
+          <SectionHead
+            eyebrow="The boutique"
+            title="Our Dress Collection"
+            text={
+              dresses.length
+                ? `${dresses.length} designs in the studio right now — starting at ${
+                    cheapest ? inr(cheapest) : "—"
+                  }. Tap a design to pick your size and see every detail.`
+                : "Stitched to your measurements in Ganapathy, Coimbatore."
+            }
+          />
+        ) : null}
 
         <div className="shop-toolbar">
           <div className="shop-search">
@@ -110,12 +124,16 @@ export default function DressShop({ dresses = [], categories = [], loading = fal
             <input
               type="search"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search a dress, colour or fabric…"
+              onChange={(e) => setFilter({ q: e.target.value })}
+              placeholder="Search a dress, colour, fabric or size…"
               aria-label="Search the collection"
             />
             {query ? (
-              <button type="button" aria-label="Clear search" onClick={() => setQuery("")}>
+              <button
+                type="button"
+                aria-label="Clear search"
+                onClick={() => setFilter({ q: "" })}
+              >
                 <i className="bi bi-x-lg" aria-hidden="true"></i>
               </button>
             ) : null}
@@ -123,7 +141,7 @@ export default function DressShop({ dresses = [], categories = [], loading = fal
 
           <label className="shop-sort">
             <span>Sort</span>
-            <select value={sort} onChange={(e) => setSort(e.target.value)}>
+            <select value={sort} onChange={(e) => setFilter({ sort: e.target.value })}>
               {Object.entries(SORTS).map(([value, label]) => (
                 <option key={value} value={value}>
                   {label}
@@ -143,7 +161,7 @@ export default function DressShop({ dresses = [], categories = [], loading = fal
                   type="button"
                   className={`shop-chip ${category === c ? "is-active" : ""}`}
                   aria-pressed={category === c}
-                  onClick={() => setCategory(c)}
+                  onClick={() => setFilter({ cat: c })}
                 >
                   {c}
                   <span>
@@ -167,7 +185,7 @@ export default function DressShop({ dresses = [], categories = [], loading = fal
                     band === b.id ? "is-active" : ""
                   }`}
                   aria-pressed={band === b.id}
-                  onClick={() => setBand(b.id)}
+                  onClick={() => setFilter({ band: b.id })}
                 >
                   {b.label}
                   <span>{bandCount(b)}</span>
@@ -190,6 +208,7 @@ export default function DressShop({ dresses = [], categories = [], loading = fal
                 Showing <strong>{visible.length}</strong> of {dresses.length} designs
                 {category !== "All" ? ` · ${category}` : ""}
                 {band !== "all" ? ` · ${activeBand.label}` : ""}
+                {query.trim() ? ` · “${query.trim()}”` : ""}
               </p>
               {filtersActive ? (
                 <button type="button" className="shop-clear" onClick={resetAll}>

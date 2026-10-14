@@ -27,11 +27,14 @@ export function createProceduralHumanCharacter() {
 
   const skin = new THREE.MeshStandardMaterial({ color: "#d59a78", roughness: 0.72 });
   const skinLight = new THREE.MeshStandardMaterial({ color: "#e3ad8c", roughness: 0.68 });
-  const hair = new THREE.MeshStandardMaterial({ color: "#2b2028", roughness: 0.76 });
-  const shirt = new THREE.MeshStandardMaterial({ color: "#d93471", roughness: 0.72 });
-  const shirtLight = new THREE.MeshStandardMaterial({ color: "#f05b91", roughness: 0.76 });
-  const denim = new THREE.MeshStandardMaterial({ color: "#29456c", roughness: 0.82 });
-  const denimLight = new THREE.MeshStandardMaterial({ color: "#3e5f89", roughness: 0.8 });
+  const hair = new THREE.MeshPhysicalMaterial({ color: "#21171d", roughness: 0.42, clearcoat: 0.16, clearcoatRoughness: 0.52 });
+  const hairHighlight = new THREE.MeshStandardMaterial({ color: "#49323b", roughness: 0.48 });
+  const glasses = new THREE.MeshStandardMaterial({ color: "#32232b", roughness: 0.28, metalness: 0.32 });
+  const gold = new THREE.MeshStandardMaterial({ color: "#d6a75e", roughness: 0.3, metalness: 0.7 });
+  const shirt = new THREE.MeshPhysicalMaterial({ color: "#c92e69", roughness: 0.68, clearcoat: 0.08 });
+  const shirtLight = new THREE.MeshStandardMaterial({ color: "#ed6594", roughness: 0.7 });
+  const denim = new THREE.MeshPhysicalMaterial({ color: "#263e63", roughness: 0.74, clearcoat: 0.04 });
+  const denimLight = new THREE.MeshStandardMaterial({ color: "#3b5a82", roughness: 0.72 });
   const shoe = new THREE.MeshStandardMaterial({ color: "#312a31", roughness: 0.78 });
   const eyeWhite = new THREE.MeshStandardMaterial({ color: "#fff7ef", roughness: 0.48 });
   const pupil = new THREE.MeshStandardMaterial({ color: "#39251f", roughness: 0.38 });
@@ -73,10 +76,18 @@ export function createProceduralHumanCharacter() {
 
   // Human face, dark swept hair, visible ears, eyes, brows and a subtle nose.
   const head = group(root, "HeadPivot", [0, 1.99, 0]);
-  add(head, "Face", sphere, skinLight, [0, 0, 0], [0.33, 0.4, 0.3]);
+  add(head, "Face", sphere, new THREE.MeshPhysicalMaterial({ color: "#e3ad8c", roughness: 0.62, clearcoat: 0.08, clearcoatRoughness: 0.62 }), [0, 0, 0], [0.33, 0.4, 0.3]);
   const hairCap = new THREE.SphereGeometry(1, 32, 24, 0, Math.PI * 2, 0, Math.PI * 0.58);
   add(head, "Hair crown", hairCap, hair, [0, 0.12, -0.025], [0.342, 0.36, 0.315]);
-  add(head, "Swept fringe", sphere, hair, [0, 0.23, 0.225], [0.29, 0.085, 0.095], [0, 0, -0.08]);
+  add(head, "Swept fringe", sphere, hair, [-0.035, 0.23, 0.225], [0.29, 0.085, 0.095], [0, 0, -0.08]);
+  // Long, layered dark hair framing the face and falling over the shoulders.
+  add(head, "Back hair volume", sphere, hair, [0, -0.29, -0.115], [0.31, 0.48, 0.19]);
+  for (const side of [-1, 1]) {
+    add(head, `Long hair lock ${side}`, capsule(0.064, 0.34), hair,
+      [side * 0.285, -0.29, -0.025], [1, 1.22, 0.9], [0, 0, side * -0.055]);
+    add(head, `Front hair strand ${side}`, capsule(0.025, 0.29), hairHighlight,
+      [side * 0.303, -0.29, 0.028], [0.72, 1.1, 0.55], [0, 0, side * -0.07]);
+  }
   for (const side of [-1, 1]) {
     add(head, `Ear ${side}`, sphere, skin, [side * 0.325, -0.01, 0.005], [0.067, 0.105, 0.08]);
     add(head, `Eye white ${side}`, sphere, eyeWhite, [side * 0.112, 0.06, 0.255], [0.057, 0.044, 0.025]);
@@ -91,6 +102,25 @@ export function createProceduralHumanCharacter() {
     add(closed, `Closed eyelid ${side}`, new THREE.TubeGeometry(curve, 18, 0.006, 8, false), hair);
     add(head, `Natural brow ${side}`, capsule(0.012, 0.055), hair,
       [side * 0.112, 0.132, 0.267], [1, 0.45, 1], [0, 0, side * -0.08]);
+    add(head, `Glasses rim ${side}`, new THREE.TorusGeometry(0.091, 0.0085, 10, 36), glasses,
+      [side * 0.112, 0.052, 0.295]);
+    add(head, `Glasses hinge ${side}`, sphere, gold,
+      [side * 0.209, 0.055, 0.286], [0.012, 0.012, 0.012]);
+    add(head, `Gold ear stud ${side}`, sphere, gold,
+      [side * 0.335, -0.045, 0.055], [0.018, 0.018, 0.018]);
+  }
+  const bridgeCurve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-0.02, 0.056, 0.295), new THREE.Vector3(0, 0.067, 0.31),
+    new THREE.Vector3(0.02, 0.056, 0.295),
+  ]);
+  add(head, "Glasses bridge", new THREE.TubeGeometry(bridgeCurve, 12, 0.0085, 8, false), glasses);
+  for (const side of [-1, 1]) {
+    const templeCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(side * 0.2, 0.055, 0.285),
+      new THREE.Vector3(side * 0.27, 0.055, 0.21),
+      new THREE.Vector3(side * 0.305, 0.04, 0.075),
+    ]);
+    add(head, `Glasses temple ${side}`, new THREE.TubeGeometry(templeCurve, 14, 0.006, 7, false), glasses);
   }
   add(head, "Nose", sphere, skin, [0, -0.015, 0.293], [0.031, 0.052, 0.034]);
   const smileCurve = new THREE.CatmullRomCurve3([
@@ -123,7 +153,37 @@ export function createProceduralHumanCharacter() {
     add(foot, `Shoe sole ${label}`, sphere, trim, [0, -0.045, 0.09], [0.134, 0.025, 0.195]);
   }
 
-  root.userData.materials = { skin, skinLight, hair, shirt, denim, denimLight, shoe, eyeWhite, pupil, trim, logoTexture };
+  // A small boutique bag hangs naturally from the right hand after checkout.
+  const rightElbow = root.getObjectByName("Elbow_R");
+  const shoppingBag = group(rightElbow, "TCT shopping bag", [0.12, -0.43, 0.035]);
+  const bagShape = new THREE.Shape();
+  bagShape.moveTo(-0.12, 0.13);
+  bagShape.lineTo(0.12, 0.13);
+  bagShape.lineTo(0.105, -0.12);
+  bagShape.quadraticCurveTo(0.1, -0.14, 0.08, -0.14);
+  bagShape.lineTo(-0.08, -0.14);
+  bagShape.quadraticCurveTo(-0.1, -0.14, -0.105, -0.12);
+  bagShape.closePath();
+  const bagMaterial = new THREE.MeshPhysicalMaterial({
+    color: "#ed6a35", roughness: 0.48, clearcoat: 0.18,
+    transparent: true, opacity: 0, depthWrite: false,
+  });
+  const bagBody = add(shoppingBag, "Orange TCT shopping bag", new THREE.ExtrudeGeometry(bagShape, {
+    depth: 0.045, bevelEnabled: true, bevelSegments: 3, steps: 1,
+    bevelSize: 0.008, bevelThickness: 0.008, curveSegments: 8,
+  }), bagMaterial, [0, -0.08, 0]);
+  const handleCurve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-0.07, 0.055, 0.055), new THREE.Vector3(-0.065, 0.17, 0.055),
+    new THREE.Vector3(0, 0.2, 0.055), new THREE.Vector3(0.065, 0.17, 0.055),
+    new THREE.Vector3(0.07, 0.055, 0.055),
+  ]);
+  add(shoppingBag, "Bag handle", new THREE.TubeGeometry(handleCurve, 20, 0.009, 8, false), bagMaterial);
+  add(shoppingBag, "Bag TCT mark", new THREE.PlaneGeometry(0.12, 0.075),
+    new THREE.MeshBasicMaterial({ map: logoTexture, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide }),
+    [0, -0.09, 0.09]);
+  shoppingBag.visible = false;
+
+  root.userData.materials = { skin, skinLight, hair, hairHighlight, glasses, gold, shirt, denim, denimLight, shoe, eyeWhite, pupil, trim, logoTexture, bagMaterial };
   return root;
 }
 function disposeRobotModel(model) {

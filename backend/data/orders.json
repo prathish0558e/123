@@ -1,0 +1,221 @@
+{
+  "orders": [
+    {
+      "id": "ORD-MV8E5XTD-4E67AF",
+      "customer_id": "c-3272ac30813df1a3",
+      "customer_name": "Test Buyer",
+      "customer_email": "test.buyer@example.com",
+      "customer_phone": "9876543210",
+      "items": [
+        {
+          "type": "dress",
+          "id": "cotton-aari-kurti",
+          "name": "Cotton Aari Kurti",
+          "price": 899,
+          "quantity": 1,
+          "size": "M",
+          "image": "/images/dresses/kurti.svg"
+        }
+      ],
+      "subtotal": 899,
+      "shipping": 0,
+      "total": 899,
+      "payment": {
+        "method": "cod",
+        "label": "Cash on Delivery",
+        "status": "pending"
+      },
+      "address": {
+        "id": "ad-c369f8b2",
+        "name": "Test Buyer",
+        "phone": "9876543210",
+        "pincode": "641006",
+        "line1": "12 Gandhi Street",
+        "line2": "",
+        "city": "Coimbatore",
+        "state": "Tamil Nadu",
+        "landmark": "",
+        "type": "home",
+        "created_at": "2026-10-14T17:36:23.658Z"
+      },
+      "status": "returned",
+      "timeline": [
+        {
+          "status": "placed",
+          "label": "Order placed",
+          "at": "2026-10-14T17:36:23.665Z",
+          "note": "We received your order."
+        },
+        {
+          "status": "shipped",
+          "label": "Shipped",
+          "at": "2026-10-14T17:36:51.119Z",
+          "note": "Handed to our delivery partner."
+        },
+        {
+          "status": "return_requested",
+          "label": "Return requested",
+          "at": "2026-10-14T17:36:51.552Z",
+          "note": "Size / fitting issue"
+        },
+        {
+          "status": "returned",
+          "label": "Return approved",
+          "at": "2026-10-14T17:36:51.820Z",
+          "note": "Pickup scheduled — refund or exchange arranged."
+        }
+      ],
+      "return": {
+        "reason": "size_issue",
+        "label": "Size / fitting issue",
+        "note": "Kurti is tight at the shoulders",
+        "status": "approved",
+        "requested_at": "2026-10-14T17:36:51.552Z",
+        "resolved_at": "2026-10-14T17:36:51.820Z"
+      },
+      "return_window_ends_at": "2026-10-15T17:36:23.665Z",
+      "delivered_at": "",
+      "created_at": "2026-10-14T17:36:23.665Z"
+    },
+    {
+      "id": "ORD-MV8F9TWV-738A3F",
+      "customer_id": "c-3272ac30813df1a3",
+      "customer_name": "Test Buyer",
+      "customer_email": "test.buyer@example.com",
+      "customer_phone": "9876543210",
+      "items": [
+        {
+          "type": "dress",
+          "id": "bridal-bridal-lehenga",
+          "name": "Bridal Aari Lehenga",
+          "price": 15999,
+          "quantity": 1,
+          "size": "M",
+          "image": "/images/dresses/lehenga.svg"
+        }
+      ],
+      "subtotal": 15999,
+      "shipping": 0,
+      "total": 15999,
+      "payment": {
+        "method": "cod",
+        "label": "Cash on Delivery",
+        "status": "pending"
+      },
+      "address": {
+        "id": "ad-afa67f5d",
+        "name": "Test Buyer",
+        "phone": "9876543210",
+        "pincode": "641006",
+        "line1": "12 Gandhi Street",
+        "line2": "",
+        "city": "Coimbatore",
+        "state": "Tamil Nadu",
+        "landmark": "",
+        "type": "home",
+        "created_at": "2026-10-14T17:36:23.820Z"
+      },
+      "status": "shipped",
+      "timeline": [
+        {
+          "status": "placed",
+          "label": "Order placed",
+          "at": "2026-10-14T18:07:24.847Z",
+          "note": "We received your order."
+        },
+        {
+          "status": "confirmed",
+          "label": "Confirmed",
+          "at": "2026-10-14T18:12:38.993Z",
+          "note": "Studio confirmed the fabric and measurements."
+        },
+        {
+          "status": "shipped",
+          "label": "Shipped",
+          "at": "2026-10-14T18:13:35.982Z",
+          "note": "Handed to our delivery partner."
+        },
+        {
+          "status": "return_requested",
+          "label": "Return requested",
+          "at": "2026-10-14T18:23:02.237Z",
+          "note": "Received damaged or defective"
+        }
+      ],
+      "return": {
+        "reason": "damaged",
+        "label": "Received damaged or defective",
+        "note": "window test",
+        "status": "requested",
+        "requested_at": "2026-10-14T18:23:02.237Z"
+      },
+      "return_window_ends_at": "2026-10-15T18:07:24.847Z",
+      "delivered_at": "",
+      "created_at": "2026-10-14T18:07:24.847Z"
+    },
+    {
+      "id": "ORD-MV8FBI2N-25671C",
+      "customer_id": "c-3272ac30813df1a3",
+      "customer_name": "Test Buyer",
+      "customer_email": "test.buyer@example.com",
+      "customer_phone": "9876543210",
+      "items": [
+        {
+          "type": "dress",
+          "id": "bridal-bridal-lehenga",
+          "name": "Bridal Aari Lehenga",
+          "price": 15999,
+          "quantity": 1,
+          "size": "M",
+          "image": "/images/dresses/lehenga.svg"
+        }
+      ],
+      "subtotal": 15999,
+      "shipping": 0,
+      "total": 15999,
+      "payment": {
+        "method": "cod",
+        "label": "Cash on Delivery",
+        "status": "pending"
+      },
+      "address": {
+        "id": "ad-afa67f5d",
+        "name": "Test Buyer",
+        "phone": "9876543210",
+        "pincode": "641006",
+        "line1": "12 Gandhi Street",
+        "line2": "",
+        "city": "Coimbatore",
+        "state": "Tamil Nadu",
+        "landmark": "",
+        "type": "home",
+        "created_at": "2026-10-14T17:36:23.820Z"
+      },
+      "status": "placed",
+      "timeline": [
+        {
+          "status": "placed",
+          "label": "Order placed",
+          "at": "2026-10-14T18:08:42.815Z",
+          "note": "We received your order."
+        },
+        {
+          "status": "return_requested",
+          "label": "Return requested",
+          "at": "2026-10-14T18:10:46.003Z",
+          "note": "Size / fitting issue"
+        }
+      ],
+      "return": {
+        "reason": "size_issue",
+        "label": "Size / fitting issue",
+        "note": "Kurti is tight at the shoulders",
+        "status": "requested",
+        "requested_at": "2026-10-14T18:10:46.003Z"
+      },
+      "return_window_ends_at": "2026-10-15T18:08:42.815Z",
+      "delivered_at": "",
+      "created_at": "2026-10-14T18:08:42.815Z"
+    }
+  ]
+}

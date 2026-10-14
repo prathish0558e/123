@@ -41,6 +41,12 @@ const RULES = [
       "Hello! 👋 Welcome to TCT Fashion Hub. Ask me about our classes, fees, combos, batch timings or the studio — or say “I want to join” and I'll note your details for the team.",
   },
   {
+    id: "boutique",
+    k: ["dress", "dresses", "outfit", "boutique", "kurti", "lehenga", "blouse", "gown", "kids wear", "shopping", "browse"],
+    a: () =>
+      "Our boutique has kurtis, sarees, lehengas, blouses, gowns, kids wear and jewellery. Choose Shop in the website menu to browse the live collection, photos, sizes and current prices. Tell me what style you are looking for and I can guide you. 🛍️",
+  },
+  {
     id: "fees",
     k: ["price", "pricing", "fee", "fees", "cost", "how much", "charge", "rate", "costly", "budget", "₹", "rs"],
     a: () =>

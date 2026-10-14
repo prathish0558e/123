@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DressManager from "../../components/admin/DressManager.jsx";
 import ClassManager from "../../components/admin/ClassManager.jsx";
+import OrderManager from "../../components/admin/OrderManager.jsx";
 import EnquiryList from "../../components/admin/EnquiryList.jsx";
 import SecurityCard from "../../components/admin/SecurityCard.jsx";
 import { Field, Notice, Spinner } from "../../components/admin/ui.jsx";
@@ -231,7 +232,7 @@ function Dashboard({ admin, onSignOut }) {
           <div key={`${tab}-${ticks}`}>
           {tab === "boutique" ? <DressManager categories={DRESS_CATEGORIES} /> : null}
           {tab === "classes" ? <ClassManager /> : null}
-          {tab === "orders" ? <CustomerOrders type="orders" /> : null}
+          {tab === "orders" ? <OrderManager /> : null}
           {tab === "customers" ? <CustomerOrders type="customers" /> : null}
           {tab === "enquiries" ? <EnquiryList /> : null}
           {tab === "security" ? (

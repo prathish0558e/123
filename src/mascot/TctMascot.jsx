@@ -54,6 +54,9 @@ class MascotBoundary extends Component {
 
 const GREETING =
   "Hi \u{1F44B}\nI'm the TCT Fashion Assistant.\nAsk me about our classes, fees, combos or batch timings — or say \"I want to join\" and I'll pass your details to the studio team.";
+const STREET_GREETING =
+  "Hi \u{1F44B}\nWelcome to TCT Fashion Hub!\nAsk me about our boutique dresses, sizes, studio or craft classes. When you're done browsing, choose “Done shopping” and I'll come back out with your shopping bag.";
+const STREET_CHIPS = ["Browse dresses", "Class fees?", "Where are you?", "I want to join"];
 
 /*
  * `street` swaps the corner-cloud guide for the street world: this component
@@ -252,7 +255,7 @@ export default function TctMascot({ street = false }) {
 
   const greet = async () => {
     if (messages.length) return;
-    await pushBot(GREETING, 650);
+    await pushBot(street ? STREET_GREETING : GREETING, 650);
   };
 
   const submitLead = async (finalDraft) => {
@@ -340,7 +343,7 @@ export default function TctMascot({ street = false }) {
 
   const resetConversation = () => {
     if (typing) return;
-    setMessages([{ from: "bot", text: GREETING }]);
+    setMessages([{ from: "bot", text: street ? STREET_GREETING : GREETING }]);
     setLeadStep(null);
     setDraft({});
     setInput("");
@@ -365,6 +368,7 @@ export default function TctMascot({ street = false }) {
     leadStep === "name" ? "Type your name\u2026"
     : leadStep === "contact" ? "Phone number (or email)\u2026"
     : leadStep === "interest" ? "Which class or combo?\u2026"
+    : street ? "Ask about dresses, sizes or classes\u2026"
     : "Ask about classes, fees, timings\u2026";
 
   return (
@@ -419,8 +423,8 @@ export default function TctMascot({ street = false }) {
               <img src="/images/Logo.jpeg" alt="" />
             </span>
             <div className="tct3d-panel-title">
-              <strong>TCT Fashion Assistant</strong>
-              <small>Your classes &amp; combos guide</small>
+              <strong>{street ? "TCT Fashion Hub" : "TCT Fashion Assistant"}</strong>
+              <small>{street ? "Boutique · Dresses · Studio help" : "Your classes &amp; combos guide"}</small>
             </div>
             <span className="tct3d-status" aria-hidden="true" />
             <span className="tct3d-status-label">Online</span>
@@ -464,13 +468,19 @@ export default function TctMascot({ street = false }) {
             <div className="tct3d-suggestion-wrap">
               <span className="tct3d-suggestion-label">QUICK ACTIONS</span>
               <div className="tct3d-chips" role="group" aria-label="Quick actions">
-                {QUICK_CHIPS.map((c) => (
+                {(street ? STREET_CHIPS : QUICK_CHIPS).map((c) => (
                   <button key={c} type="button" onClick={() => onChip(c)} disabled={typing}>
                     {c}
                   </button>
                 ))}
               </div>
             </div>
+          )}
+
+          {street && (
+            <button type="button" className="tct3d-finish-shopping" onClick={close} disabled={typing}>
+              <span aria-hidden="true">🛍️</span> Done shopping · Get my review
+            </button>
           )}
 
           <form

@@ -73,6 +73,16 @@ export const adminApi = {
   enquiries: () => call("/api/admin/enquiries"),
   customers: () => call("/api/admin/customers"),
   orders: () => call("/api/admin/orders"),
+  setOrderStatus: (id, status) =>
+    call(`/api/admin/orders/${encodeURIComponent(id)}/status`, {
+      method: "POST",
+      body: { status },
+    }),
+  resolveReturn: (id, decision) =>
+    call(`/api/admin/orders/${encodeURIComponent(id)}/return`, {
+      method: "POST",
+      body: { decision },
+    }),
   setEnquiryStatus: (id, status) =>
     call(`/api/admin/enquiries/${encodeURIComponent(id)}`, {
       method: "PATCH",

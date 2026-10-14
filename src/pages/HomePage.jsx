@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DressShop from "../components/DressShop.jsx";
 import Marquee from "../components/Marquee.jsx";
 import { Reveal, SectionHead, useCountUp } from "../components/Reveal.jsx";
@@ -23,7 +23,29 @@ function Stat({ value, suffix, label, plain }) {
 }
 
 /* ---------- Home hero — boutique over a cinematic shade ---------- */
-function HeroSection({ minPrice }) {
+const TRUST = [
+  { icon: "bi-cash-coin", title: "Cash on Delivery", text: "Pay when it arrives" },
+  { icon: "bi-arrow-repeat", title: "1-day return", text: "Size or damage only" },
+  { icon: "bi-truck", title: "Free delivery", text: "Anywhere in India" },
+  { icon: "bi-rulers", title: "Made to measure", text: "Stitched for you" },
+];
+
+function HeroSection({ minPrice, categories }) {
+  const navigate = useNavigate();
+  const [term, setTerm] = useState("");
+  const [category, setCategory] = useState("");
+
+  /* The hero search is the front door: it hands the query to /shop, which
+     owns the filters (and keeps them in the URL). */
+  const search = (event) => {
+    event.preventDefault();
+    const params = new URLSearchParams();
+    if (term.trim()) params.set("q", term.trim());
+    if (category) params.set("cat", category);
+    const qs = params.toString();
+    navigate(qs ? `/shop?${qs}` : "/shop");
+  };
+
   return (
     <section className="hero-live" aria-label="TCT Fashion Hub boutique and craft studio">
       <div className="hero-media" aria-hidden="true">
@@ -56,10 +78,52 @@ function HeroSection({ minPrice }) {
           plus the craft <strong>classes</strong> that taught Coimbatore to make
           them. Stitched to your measurements, ready in days.
         </p>
+        <form className="hero-search" role="search" onSubmit={search}>
+          <label className="hero-search-cat">
+            <i className="bi bi-grid" aria-hidden="true" />
+            <select
+              value={category}
+              onChange={(event) => setCategory(event.target.value)}
+              aria-label="Search in category"
+            >
+              <option value="">All categories</option>
+              {categories.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </label>
+          <input
+            type="search"
+            value={term}
+            onChange={(event) => setTerm(event.target.value)}
+            placeholder="Search kurti, saree, lehenga, blouse…"
+            aria-label="Search the boutique collection"
+          />
+          <button type="submit" className="btn btn-primary">
+            <i className="bi bi-search" aria-hidden="true" /> Search
+          </button>
+        </form>
+
+        {categories.length ? (
+          <div className="hero-cats" aria-label="Shop by category">
+            {categories.map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => navigate(`/shop?cat=${encodeURIComponent(c)}`)}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+        ) : null}
+
         <div className="hero-live-actions">
-          <a href="#shop" className="btn btn-primary btn-lg">
+          <Link to="/shop" className="btn btn-primary btn-lg">
             Shop the Collection <i className="bi bi-bag-heart"></i>
-          </a>
+          </Link>
           <Link to="/classes" className="btn btn-lg hs-ghost">
             Craft Classes <i className="bi bi-arrow-right"></i>
           </Link>
@@ -69,12 +133,33 @@ function HeroSection({ minPrice }) {
             <i className="bi bi-rulers"></i> Stitched to your measurements
           </li>
           <li>
-            <i className="bi bi-palette"></i> 8 categories, one studio
+            <i className="bi bi-palette"></i> {categories.length || 8} categories, one studio
           </li>
           <li>
             <i className="bi bi-truck"></i> Ready in 3–7 days
           </li>
         </ul>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Marketplace-style promise strip ---------- */
+function TrustStrip() {
+  return (
+    <section className="promise-strip" aria-label="Why shop with us">
+      <div className="container promise-grid">
+        {TRUST.map((item) => (
+          <div className="promise" key={item.title}>
+            <span className="promise-ic">
+              <i className={`bi ${item.icon}`} aria-hidden="true" />
+            </span>
+            <div>
+              <strong>{item.title}</strong>
+              <small>{item.text}</small>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -164,7 +249,9 @@ export default function HomePage() {
 
   return (
     <>
-      <HeroSection minPrice={minPrice} />
+      <HeroSection minPrice={minPrice} categories={categories} />
+
+      <TrustStrip />
 
       {/* ---------- Stats ---------- */}
       <div className="stats">
@@ -179,8 +266,16 @@ export default function HomePage() {
 
       <Marquee items={marqueeItems} />
 
-      {/* ---------- Boutique: flip cards with starting prices ---------- */}
-      <DressShop dresses={dresses} categories={categories} loading={loading} />
+      {/* ---------- Boutique: product cards with starting prices ---------- */}
+      <DressShop dresses={dresses} categories={categories} loading={loading} variant="home" />
+
+      {!loading && dresses.length ? (
+        <div className="container shop-more">
+          <Link to="/shop" className="btn btn-outline btn-lg">
+            View the full collection <i className="bi bi-arrow-right" aria-hidden="true" />
+          </Link>
+        </div>
+      ) : null}
 
       {/* ---------- Classes teaser (the classes now live on /classes) -------- */}
       <section className="section">
@@ -310,8 +405,8 @@ export default function HomePage() {
                   className="hero-live-actions"
                   style={{ justifyContent: "flex-start", marginTop: 22 }}
                 >
-                  <Link to="/login" className="btn btn-primary btn-lg">
-                    Login to order <i className="bi bi-arrow-right"></i>
+                  <Link to="/shop" className="btn btn-primary btn-lg">
+                    Shop the collection <i className="bi bi-arrow-right"></i>
                   </Link>
                 </div>
               </div>
@@ -333,9 +428,9 @@ export default function HomePage() {
                   {pricing?.singleClasses?.length || 6} craft classes with kits
                   included, and a boutique that stitches to your measurements.
                 </p>
-                <a href="#shop" className="btn btn-outline">
+                <Link to="/shop" className="btn btn-outline">
                   See the collection <i className="bi bi-arrow-right"></i>
-                </a>
+                </Link>
               </div>
             </div>
           </Reveal>
