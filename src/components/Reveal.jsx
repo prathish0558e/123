@@ -37,12 +37,15 @@ export function Reveal({ children, delay = 0, className = "" }) {
   );
 }
 
-export function SectionHead({ eyebrow, title, text, left = false }) {
+export function SectionHead({ eyebrow, title, text, left = false, action = null }) {
   return (
-    <div className={`section-head ${left ? "left" : ""}`}>
-      <span className="eyebrow">{eyebrow}</span>
-      <h2>{title}</h2>
-      {text ? <p>{text}</p> : null}
+    <div className={`section-head ${left ? "left" : ""} ${action ? "has-action" : ""}`}>
+      <div className="section-head-copy">
+        <span className="eyebrow">{eyebrow}</span>
+        <h2>{title}</h2>
+        {text ? <p>{text}</p> : null}
+      </div>
+      {action ? <div className="section-head-action">{action}</div> : null}
     </div>
   );
 }

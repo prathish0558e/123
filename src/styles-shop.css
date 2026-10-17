@@ -2680,3 +2680,1572 @@
   font-size: 13px;
   line-height: 1.55;
 }
+
+/* ============================================================
+   Premium home — a marketplace storefront.
+   Hero banner (no video), category rail, spotlight band and the
+   academy doorway. Home sells the boutique; the academy lives on
+   /classes.
+   ============================================================ */
+
+/* ----------------------------------------------------- hero ---- */
+.hero-premium {
+  /* the poster drifts slowly; there is no video to wait for */
+  background: #060c1a;
+}
+
+.hero-premium .hero-poster {
+  animation: hero-zoom 24s ease-out forwards;
+}
+
+.hero-premium .hero-shade {
+  background:
+    radial-gradient(
+      68% 70% at 50% 40%,
+      rgba(6, 12, 24, 0.7) 0%,
+      rgba(6, 12, 24, 0.5) 60%,
+      rgba(6, 12, 24, 0.3) 100%
+    ),
+    radial-gradient(50% 46% at 8% 4%, rgba(13, 110, 253, 0.34), rgba(13, 110, 253, 0) 72%),
+    radial-gradient(48% 44% at 92% 98%, rgba(249, 115, 22, 0.26), rgba(249, 115, 22, 0) 72%),
+    linear-gradient(
+      180deg,
+      rgba(5, 10, 20, 0.82) 0%,
+      rgba(5, 10, 20, 0.4) 44%,
+      rgba(5, 10, 20, 0.9) 100%
+    );
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+.hero-pill i {
+  color: #7dd3fc;
+}
+
+/* the pill takes the place of the hero eyebrow — keep the same entrance */
+.hero-premium .hero-pill {
+  animation: hero-rise 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.hero-premium .hero-live-title {
+  font-size: clamp(1.9rem, 4vw, 3.15rem);
+  max-width: 1080px;
+}
+
+.hero-premium .hero-live-text {
+  max-width: 640px;
+}
+
+/* ------------------------------------------------- category rail ---- */
+.cat-rail-section {
+  padding-top: 46px;
+  padding-bottom: 30px;
+}
+
+.cat-rail {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+  gap: 12px;
+}
+
+.cat-tile {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  padding: 18px 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.cat-tile:hover,
+.cat-tile:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(13, 110, 253, 0.4);
+  box-shadow: var(--shadow-md);
+}
+
+.cat-tile-art {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, #eef5ff 0%, #ffffff 62%, #fff3e8 100%);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.cat-tile-art img {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+}
+
+.cat-tile-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.cat-tile-count {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+/* ------------------------------------------- section head + action ---- */
+.section-head.has-action {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px 24px;
+  flex-wrap: wrap;
+  max-width: none;
+  margin-inline: 0;
+  text-align: left;
+}
+
+.section-head.has-action .section-head-copy {
+  max-width: 720px;
+}
+
+.section-head.has-action .section-head-copy .eyebrow::before {
+  margin-inline: 0;
+}
+
+.section-head-action {
+  padding-bottom: 6px;
+}
+
+.section-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--primary);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.section-action:hover {
+  color: var(--primary-dark);
+  gap: 11px;
+}
+
+/* ------------------------------------------------- spotlight band ---- */
+.spotlight {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 30px;
+  align-items: center;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 6px);
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgba(13, 110, 253, 0.07), transparent 62%),
+    radial-gradient(50% 70% at 0% 100%, rgba(249, 115, 22, 0.09), transparent 62%),
+    #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.spotlight-media {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg-soft);
+  aspect-ratio: 4 / 3.4;
+}
+
+.spotlight-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spotlight-off {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #16a34a;
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.spotlight-body h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.15rem);
+  line-height: 1.16;
+  margin: 6px 0 8px;
+  letter-spacing: -0.02em;
+}
+
+.spotlight-cat {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.spotlight-text {
+  color: var(--muted);
+  margin: 0 0 16px;
+  max-width: 60ch;
+}
+
+.spotlight-price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.spotlight-price strong {
+  font: 800 27px/1.1 var(--font-display);
+  color: var(--ink);
+}
+
+.spotlight-price s {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.spotlight-price small {
+  width: 100%;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.spotlight-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ------------------------------------------------- academy doorway ---- */
+.academy-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 22px;
+  padding: 30px 34px;
+  border-radius: calc(var(--radius) + 6px);
+  background: linear-gradient(120deg, #0b1a33 0%, #123a6b 52%, #0d6efd 100%);
+  color: #fff;
+  box-shadow: var(--shadow-lg);
+}
+
+.academy-copy {
+  max-width: 620px;
+}
+
+.academy-copy .eyebrow {
+  color: #a5d8ff;
+}
+
+.academy-copy .eyebrow::before {
+  background: #a5d8ff;
+}
+
+.academy-band h2 {
+  font-family: var(--font-display);
+  color: #fff;
+  font-size: clamp(1.35rem, 2.7vw, 1.95rem);
+  line-height: 1.2;
+  margin: 8px 0 10px;
+  letter-spacing: -0.02em;
+}
+
+.academy-band p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.academy-band .btn-primary {
+  background: #fff;
+  color: var(--primary-deep);
+  border-color: #fff;
+}
+
+.academy-band .btn-primary:hover {
+  background: #eaf2ff;
+  color: var(--primary-deep);
+}
+
+/* -------------------------------------------------- responsive ---- */
+@media (max-width: 900px) {
+  .spotlight {
+    grid-template-columns: 1fr;
+  }
+
+  .spotlight-media {
+    aspect-ratio: 16 / 11;
+  }
+}
+
+@media (max-width: 720px) {
+  .cat-rail {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-bottom: 12px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cat-rail > li {
+    flex: 0 0 116px;
+    scroll-snap-align: start;
+  }
+
+  .cat-tile-art {
+    width: 72px;
+    height: 72px;
+  }
+
+  .academy-band {
+    padding: 24px 20px;
+  }
+
+  .academy-band .btn {
+    width: 100%;
+  }
+}
+
+/* ============================================================
+   Marketplace home — banner stage, deals rail, richer tiles.
+   The Flipkart shape: browse rail, promo carousel with standing
+   offers beside it, then today's deals, then the collection.
+   ============================================================ */
+
+/* --------------------------------------------- category tile ---- */
+.cat-tile {
+  position: relative;
+  gap: 7px;
+  padding: 20px 12px 18px;
+  width: 100%;
+}
+
+.cat-tile::after {
+  /* the hover wash — a soft brand gradient, not a colour jump */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(150deg, rgba(13, 110, 253, 0.05), rgba(249, 115, 22, 0.06));
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  pointer-events: none;
+}
+
+.cat-tile:hover::after,
+.cat-tile:focus-visible::after {
+  opacity: 1;
+}
+
+.cat-tile-mark {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 12px;
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.cat-tile:hover .cat-tile-mark,
+.cat-tile:focus-visible .cat-tile-mark {
+  opacity: 1;
+  transform: none;
+}
+
+.cat-tile-from {
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--primary-deep);
+}
+
+.cat-tile-count {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ----------------------------------------------- banner stage --- */
+.banner-stage {
+  padding: 6px 0 42px;
+}
+
+.banner-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2.55fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.banner-carousel {
+  position: relative;
+  min-height: 318px;
+  border-radius: calc(var(--radius) + 6px);
+  overflow: hidden;
+  background: #081226;
+  box-shadow: var(--shadow-md);
+  isolation: isolate;
+}
+
+.banner-track {
+  position: absolute;
+  inset: 0;
+}
+
+.bslide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+.bslide.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.bslide-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.04);
+}
+
+.bslide.is-active .bslide-art {
+  animation: banner-drift 7.2s ease-out forwards;
+}
+
+@keyframes banner-drift {
+  from {
+    transform: scale(1.045);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+.bslide-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(70% 90% at 12% 90%, rgba(4, 9, 20, 0.92), rgba(4, 9, 20, 0.34) 70%),
+    linear-gradient(96deg, rgba(4, 9, 20, 0.9) 0%, rgba(4, 9, 20, 0.62) 46%, rgba(4, 9, 20, 0.14) 100%);
+}
+
+/* A product cut-out on the art variants should read as a photo, not a poster. */
+.bslide--category .bslide-art,
+.bslide--deal .bslide-art {
+  object-fit: contain;
+  object-position: 92% 60%;
+  padding: 34px 30px 0;
+}
+
+.bslide--category .bslide-scrim,
+.bslide--deal .bslide-scrim {
+  background:
+    radial-gradient(64% 120% at 4% 100%, rgba(8, 17, 38, 0.96), rgba(8, 17, 38, 0.4) 74%),
+    linear-gradient(88deg, rgba(6, 13, 30, 0.95) 0%, rgba(6, 13, 30, 0.78) 52%, rgba(6, 13, 30, 0.24) 100%);
+}
+
+.bslide-body {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 40px 132px 64px 42px;
+  color: #fff;
+  max-width: 640px;
+}
+
+.bslide-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  backdrop-filter: blur(6px);
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bslide--deal .bslide-tag {
+  background: #16a34a;
+  border-color: #16a34a;
+}
+
+.bslide-body h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 2.05rem);
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.bslide-body p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 14.5px;
+  max-width: 46ch;
+}
+
+.bslide-body .btn {
+  margin-top: 6px;
+}
+
+.banner-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(9, 16, 32, 0.55);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.22s ease, background 0.22s ease, transform 0.22s ease;
+  z-index: 3;
+}
+
+.banner-carousel:hover .banner-arrow,
+.banner-carousel:focus-within .banner-arrow {
+  opacity: 1;
+}
+
+.banner-arrow:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.banner-arrow--prev {
+  left: 14px;
+}
+
+.banner-arrow--next {
+  right: 14px;
+}
+
+.banner-dots {
+  position: absolute;
+  left: 42px;
+  bottom: 22px;
+  display: flex;
+  gap: 8px;
+  z-index: 3;
+}
+
+.banner-dot {
+  width: 26px;
+  height: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.34);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.banner-dot span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #fff;
+}
+
+.banner-dot.is-active {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.banner-dot.is-active span {
+  width: 100%;
+  animation: dot-fill 5.6s linear forwards;
+}
+
+@keyframes dot-fill {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* the standing offer cards beside the carousel */
+.banner-side {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+}
+
+.bside-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) + 2px);
+  background: #fff;
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.bside-card::before {
+  content: "";
+  position: absolute;
+  inset: auto -30% -60% auto;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.bside-card--price::before {
+  background: radial-gradient(circle, rgba(13, 110, 253, 0.16), transparent 68%);
+}
+
+.bside-card--service::before {
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.2), transparent 68%);
+}
+
+.bside-card:hover,
+.bside-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: #cfe0ff;
+  box-shadow: var(--shadow-md);
+}
+
+.bside-ic {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--primary-soft);
+  color: var(--primary-deep);
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+
+.bside-card--service .bside-ic {
+  background: #fff1e4;
+  color: #b45309;
+}
+
+.bside-card strong {
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.bside-card small {
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.bside-go {
+  margin-top: auto;
+  padding-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.bside-card--service .bside-go {
+  color: #b45309;
+}
+
+/* -------------------------------------------------- deals rail --- */
+.deals-section {
+  padding-top: 46px;
+}
+
+.deals-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px 24px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.deals-head-copy h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.15rem);
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  margin: 6px 0 8px;
+}
+
+.deals-head-copy p {
+  margin: 0;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+.deals-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.deals-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 15px;
+  border-radius: 999px;
+  background: #0b1428;
+  color: #fff;
+}
+
+
+.deals-timer small {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.deals-timer strong {
+  font: 800 15px/1 ui-monospace, "SFMono-Regular", "Segoe UI Mono", monospace;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.deals-timer strong i {
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.45);
+  padding: 0 1px;
+}
+
+.deals-arrows {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.deals-arrows button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.deals-arrows button:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.deals-arrows button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.deals-rail {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-padding-left: 4px;
+  padding: 6px 4px 18px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.deals-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.deals-rail:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+  border-radius: var(--radius);
+}
+
+.deals-item {
+  flex: 0 0 246px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  scroll-snap-align: start;
+}
+
+.deals-item .pcard {
+  flex: 1;
+}
+
+.deals-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: #e7f8ef;
+  color: #0f7a47;
+  font-size: 11.5px;
+  font-weight: 800;
+}
+
+.deals-foot {
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+/* the rail fades at the edges instead of cutting cards in half */
+@media (min-width: 901px) {
+  .deals-rail {
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0,
+      #000 18px,
+      #000 calc(100% - 18px),
+      transparent 100%
+    );
+  }
+}
+
+/* -------------------------------------------------- responsive --- */
+@media (max-width: 1080px) {
+  .banner-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .banner-side {
+    grid-template-rows: none;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .banner-carousel {
+    min-height: 296px;
+  }
+}
+
+@media (max-width: 720px) {
+  .banner-carousel {
+    min-height: 0;
+    aspect-ratio: 4 / 3.3;
+  }
+
+  .bslide-body {
+    padding: 26px 20px 58px;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .bslide-body p {
+    font-size: 13.5px;
+  }
+
+  .bslide--category .bslide-art,
+  .bslide--deal .bslide-art {
+    padding: 70px 18px 0;
+    object-position: 84% 26%;
+  }
+
+  .bslide--category .bslide-scrim,
+  .bslide--deal .bslide-scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(6, 13, 30, 0.2) 0%,
+      rgba(6, 13, 30, 0.6) 46%,
+      rgba(6, 13, 30, 0.95) 100%
+    );
+  }
+
+  .banner-arrow {
+    display: none;
+  }
+
+  .banner-dots {
+    left: 20px;
+    bottom: 20px;
+  }
+
+  .banner-side {
+    grid-template-columns: 1fr;
+  }
+
+  .bside-card {
+    padding: 16px 18px;
+  }
+
+  .deals-head {
+    align-items: flex-start;
+  }
+
+  .deals-item {
+    flex: 0 0 202px;
+    scroll-snap-align: center;
+  }
+
+  .deals-rail {
+    padding-inline: 2px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .deals-timer strong {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bslide.is-active .bslide-art {
+    animation: none;
+  }
+
+  .banner-dot.is-active span {
+    animation: none;
+    width: 100%;
+  }
+}
+
+/* ------------------------------------------- card colours + peek ---- */
+.pcard-colors {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 9px 0 2px;
+}
+
+.pcard-color {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px var(--line);
+  margin-right: -5px;
+  transition: transform 0.18s ease;
+}
+
+.pcard-color.is-light {
+  box-shadow: 0 0 0 1px #cbd5e1;
+}
+
+.pcard:hover .pcard-color {
+  transform: translateY(-1px);
+}
+
+.pcard-color-more {
+  margin-left: 11px;
+  font-size: 11px;
+  font-weight: 700;
+  font-style: normal;
+  color: var(--muted);
+}
+
+
+/* ------------------------------------------ banner art lighting ---- */
+/* A soft studio glow sits behind the cut-out art (painted first by using
+   ::before) so the garment reads as a lit product on a dark banner. */
+.bslide::before {
+  content: "";
+  position: absolute;
+  right: 3%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(48%, 430px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(13, 110, 253, 0.36), transparent 66%);
+  pointer-events: none;
+}
+
+.bslide--deal::before {
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.36), transparent 66%);
+}
+
+.bslide--service::before {
+  display: none;
+}
+
+.bslide--deal .bslide-art,
+.bslide--category .bslide-art {
+  filter: drop-shadow(0 26px 44px rgba(2, 6, 16, 0.55));
+}
+
+@media (max-width: 720px) {
+  .bslide::before {
+    right: auto;
+    left: 50%;
+    top: 34%;
+    width: 210px;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* ============================================================
+   Add-to-bag motion — the card flips, the photo flies, the bag
+   bumps and the mini bag slides in. A real storefront gesture.
+   ============================================================ */
+
+/* ----------------------------------------------------- flip ---- */
+.pcard-media {
+  perspective: 1200px;
+}
+
+.pcard-flip {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.62s cubic-bezier(0.34, 0.06, 0.24, 0.99);
+}
+
+.pcard-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.pcard-face--front {
+  position: relative;
+}
+
+.pcard-face--back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  /* decoration only: a click anywhere on the photo keeps working */
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 14px;
+  overflow: hidden;
+  background: linear-gradient(158deg, #0a1426 0%, #123059 56%, #0d6efd 100%);
+  color: #fff;
+}
+
+.pcard-back-tag {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a5d8ff;
+}
+
+.pcard-face--back h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 13.5px;
+  line-height: 1.22;
+  color: #fff;
+}
+
+.pcard-back-list {
+  margin: 1px 0 0;
+  display: grid;
+  gap: 5px;
+  /* On the narrowest rail cards the spec list is the part that gives — it
+     clips quietly instead of pushing the call to action out of the box. */
+  min-height: 0;
+  overflow: hidden;
+}
+
+.pcard-back-list div {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 7px;
+}
+
+.pcard-back-list dt {
+  margin: 0;
+  padding-top: 1px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.pcard-back-list dd {
+  margin: 0;
+  font-size: 10.5px;
+  line-height: 1.34;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.pcard-back-cta {
+  margin-top: auto;
+  padding-top: 4px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #a5d8ff;
+}
+
+/* A pointer that can hover gets the flip; a thumb gets the plain card and
+   goes straight to the product page on tap. */
+@media (hover: hover) and (pointer: fine) {
+  .pcard:hover .pcard-flip,
+  .pcard:focus-within .pcard-flip {
+    transform: rotateY(180deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pcard-flip {
+    transition: none;
+  }
+
+  .pcard:hover .pcard-flip,
+  .pcard:focus-within .pcard-flip {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------- fly to the bag ---- */
+.fly-to-bag {
+  position: fixed;
+  z-index: 9999;
+  border-radius: 16px;
+  object-fit: cover;
+  pointer-events: none;
+  box-shadow: 0 20px 44px rgba(2, 8, 20, 0.38);
+  will-change: transform, opacity;
+}
+
+.nav-cart {
+  position: relative;
+}
+
+.nav-cart.is-bump {
+  animation: bag-bump 0.7s cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+
+@keyframes bag-bump {
+  0% {
+    transform: scale(1);
+  }
+  24% {
+    transform: scale(1.22) rotate(-5deg);
+  }
+  48% {
+    transform: scale(0.94) rotate(3deg);
+  }
+  72% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.bag-burst {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  pointer-events: none;
+  animation: bag-burst 0.62s ease-out forwards;
+}
+
+@keyframes bag-burst {
+  from {
+    transform: scale(0.5);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(4.4);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-cart.is-bump {
+    animation: none;
+  }
+
+  .bag-burst {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------- mini bag ---- */
+.mini-bag {
+  position: fixed;
+  inset: 0;
+  z-index: 1240;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.mini-bag.is-open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.mini-bag-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 12, 24, 0.52);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.34s ease;
+}
+
+.mini-bag.is-open .mini-bag-scrim {
+  opacity: 1;
+}
+
+.mini-bag-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(408px, 100%);
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  box-shadow: -26px 0 64px rgba(8, 17, 38, 0.24);
+  transform: translateX(103%);
+  transition: transform 0.44s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.mini-bag.is-open .mini-bag-panel {
+  transform: none;
+}
+
+.mini-bag-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(120deg, #eef5ff, #ffffff 70%);
+}
+
+.mini-bag-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.mini-bag-title i {
+  color: #16a34a;
+}
+
+.mini-bag-close {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.mini-bag-close:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.mini-bag-items {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px 20px;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.mini-bag-item {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr) auto;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  animation: mini-bag-in 0.34s ease both;
+}
+
+.mini-bag-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+@keyframes mini-bag-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mini-bag-item img,
+.mini-bag-icon {
+  width: 62px;
+  aspect-ratio: 4 / 5;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  object-fit: cover;
+}
+
+.mini-bag-icon {
+  display: grid;
+  place-items: center;
+  color: var(--primary);
+  font-size: 20px;
+}
+
+.mini-bag-info {
+  display: grid;
+  gap: 3px;
+  align-content: start;
+}
+
+.mini-bag-info strong {
+  font-size: 13.5px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.mini-bag-info small {
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.mini-bag-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 5px;
+  width: fit-content;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px;
+}
+
+.mini-bag-qty button {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.mini-bag-qty button:hover {
+  background: var(--primary-soft);
+  color: var(--primary-deep);
+}
+
+.mini-bag-qty span {
+  min-width: 18px;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.mini-bag-price {
+  display: grid;
+  justify-items: end;
+  align-content: space-between;
+}
+
+.mini-bag-price b {
+  font-size: 13.5px;
+  color: var(--ink);
+}
+
+.mini-bag-price button {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.mini-bag-price button:hover {
+  color: #b42318;
+}
+
+.mini-bag-foot {
+  padding: 16px 20px 20px;
+  border-top: 1px solid var(--line);
+  background: var(--bg-soft);
+  display: grid;
+  gap: 10px;
+}
+
+.mini-bag-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mini-bag-total span {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.mini-bag-total strong {
+  font: 800 18px/1 var(--font-display);
+  color: var(--ink);
+}
+
+.mini-bag-note {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.mini-bag-note i {
+  color: var(--primary);
+}
+
+.mini-bag-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mini-bag-links a,
+.mini-bag-links button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: 700 12.5px var(--font-body);
+  color: var(--primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mini-bag-links button:hover,
+.mini-bag-links a:hover {
+  text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mini-bag-panel,
+  .mini-bag-scrim,
+  .mini-bag-item {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------- loading grid ---- */
+/* The collection's loading state: the real grid, drawn as skeletons. */
+.dress-loading {
+  display: block;
+}
+
+.dress-loading .dress-grid {
+  pointer-events: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

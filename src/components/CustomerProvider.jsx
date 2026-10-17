@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { customerApi } from "../lib/customer.js";
+import { customerApi, clearCart } from "../lib/customer.js";
 
 const CustomerContext = createContext(null);
 
@@ -39,6 +39,9 @@ export function CustomerProvider({ children }) {
       },
       signOut: async () => {
         await customerApi.logout();
+        /* The bag belongs to the account that filled it — a shared device must
+           never hand one shopper's bag to the next one who signs in. */
+        clearCart();
         setUser(null);
       },
       /** Continue with Google — the server has already verified the token. */

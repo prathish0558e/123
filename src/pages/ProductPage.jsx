@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useSeo from "../lib/useSeo.js";
 import { siteUrlFor } from "../lib/seo.js";
 import { fetchDresses, inr } from "../lib/shop.js";
 import { addToCart } from "../lib/customer.js";
+import { flyToBag } from "../lib/flyToBag.js";
+import { useCustomer } from "../components/CustomerProvider.jsx";
 import { DELIVERY_TEXT, RETURN_WINDOW_TEXT } from "../lib/orderFlow.js";
 import { COMPANY } from "../data/content.js";
 import DressFlipCard from "../components/DressFlipCard.jsx";
@@ -24,6 +26,9 @@ export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
   const [active, setActive] = useState(0);
   const [notice, setNotice] = useState("");
+  /* The photo the "added" animation lifts off the page. */
+  const photoRef = useRef(null);
+  const { user, loading: sessionLoading } = useCustomer();
 
   useEffect(() => {
     let cancelled = false;
@@ -74,6 +79,12 @@ export default function ProductPage() {
       : 0;
 
   const add = (goToCheckout) => {
+    /* The bag is an account feature: no signed-in shopper, no bag. */
+    if (sessionLoading) return;
+    if (!user) {
+      navigate("/login", { state: { from: `/shop/${id}` } });
+      return;
+    }
     if (dress.sizes?.length && !size) {
       setNotice("Please choose a size first — every piece is stitched to one.");
       return;
@@ -88,6 +99,9 @@ export default function ProductPage() {
       quantity,
     });
     setNotice(`${dress.name}${size ? ` (${size})` : ""} added to your bag.`);
+    /* "Buy now" jumps straight to checkout, so the flying image and the drawer
+       would only be interrupted — the plain bump is enough there. */
+    flyToBag(photoRef.current, { image: dress.image, openBag: !goToCheckout });
     if (goToCheckout) navigate("/checkout");
   };
 
@@ -176,6 +190,7 @@ export default function ProductPage() {
           <div className="pd-media">
             <div className="pd-photo">
               <img
+                ref={photoRef}
                 src={gallery[active] || "/images/placeholder.svg"}
                 alt={dress.name}
                 onError={(e) => {

@@ -4,7 +4,7 @@ import { COMPANY } from "../data/content.js";
 const QUICK_LINKS = [
   { label: "Home", to: "/" },
   { label: "Shop the Collection", to: "/shop" },
-  { label: "Classes & Combos", to: "/classes" },
+  { label: "Craft Classes", to: "/classes" },
   { label: "About the Studio", to: "/about" },
   { label: "My Orders", to: "/account" },
   /* No public /admin link — the studio panel is direct-URL only. */

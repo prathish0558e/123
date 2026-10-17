@@ -10,13 +10,19 @@ import {
 import { inr } from "../lib/shop.js";
 import useSeo from "../lib/useSeo.js";
 import { RETURN_WINDOW_TEXT } from "../lib/orderFlow.js";
+import { useCustomer } from "../components/CustomerProvider.jsx";
 
 /*
  * The shopping bag. Placing an order happens on /checkout (address + payment),
  * so this page stays about what you are buying.
+ *
+ * The bag is an account feature — the navbar only shows it to a signed-in
+ * shopper, and this page sends everyone else to sign in rather than showing a
+ * bag they cannot check out of.
  */
 export default function CartPage() {
   const navigate = useNavigate();
+  const { user, loading } = useCustomer();
   const [items, setItems] = useState(readCart);
   const total = useMemo(
     () => items.reduce((sum, item) => sum + Number(item.price) * Number(item.quantity), 0),
@@ -35,6 +41,12 @@ export default function CartPage() {
     window.addEventListener("tct-cart-change", update);
     return () => window.removeEventListener("tct-cart-change", update);
   }, []);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login", { replace: true, state: { from: "/cart" } });
+    }
+  }, [loading, user, navigate]);
 
   return (
     <section className="section cart-section">

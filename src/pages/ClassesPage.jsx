@@ -2,14 +2,32 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import SingleClasses from "../components/SingleClasses.jsx";
 import ComboClasses from "../components/ComboClasses.jsx";
-import { PageHero, Reveal } from "../components/Reveal.jsx";
+import { PageHero, Reveal, SectionHead, useCountUp } from "../components/Reveal.jsx";
 import useSeo from "../lib/useSeo.js";
 import { siteUrlFor } from "../lib/seo.js";
 import { fetchPricing, inr, useLiveCatalog } from "../lib/shop.js";
-import { COMPANY, CRAFTS } from "../data/content.js";
+import { COMPANY, CRAFTS, STATS, TESTIMONIALS } from "../data/content.js";
 
 const DESCRIPTION =
   "Certified craft classes in Ganapathy, Coimbatore — tailoring, embroidery, aari work, jewellery making, saree pre-pleating, mehndi and resin art. Single classes and money-saving combos, every one with a starter kit gift.";
+
+/*
+ * The studio's track record. These numbers belong on the academy page only —
+ * the home page stays a boutique, so a shopper never meets class figures while
+ * browsing dresses.
+ */
+function Stat({ value, suffix, label, plain }) {
+  const [ref, n] = useCountUp(value);
+  return (
+    <div className="stat" ref={ref}>
+      <span className="num">
+        {plain ? value : n.toLocaleString("en-IN")}
+        {!plain && suffix}
+      </span>
+      <span className="lbl">{label}</span>
+    </div>
+  );
+}
 
 export default function ClassesPage() {
   const [pricing, setPricing] = useState(null);
@@ -110,6 +128,17 @@ export default function ClassesPage() {
         </div>
       </section>
 
+      {/* ---------- Studio record: who has already trained here ---------- */}
+      <div className="stats">
+        <div className="container">
+          <div className="stats-card">
+            {STATS.map((s) => (
+              <Stat key={s.label} {...s} />
+            ))}
+          </div>
+        </div>
+      </div>
+
       {loading ? (
         <div className="fh-loading">
           <i className="bi bi-arrow-repeat" aria-label="Loading classes"></i>
@@ -121,8 +150,43 @@ export default function ClassesPage() {
         </>
       )}
 
-      {/* ---------- Boutique cross-sell ---------- */}
+      {/* ---------- What our students say ---------- */}
       <section className="section soft">
+        <div className="container">
+          <SectionHead eyebrow="Testimonials" title="What Our Students Say" />
+          <div className="grid-2">
+            {TESTIMONIALS.map((t, i) => (
+              <Reveal key={t.name} delay={i * 80}>
+                <div className="tst" style={{ height: "100%" }}>
+                  <div className="stars">
+                    <i className="bi bi-star-fill"></i>
+                    <i className="bi bi-star-fill"></i>
+                    <i className="bi bi-star-fill"></i>
+                    <i className="bi bi-star-fill"></i>
+                    <i className="bi bi-star-fill"></i>
+                  </div>
+                  <blockquote>“{t.quote}”</blockquote>
+                  <div className="who">
+                    <div className="avatar">
+                      {t.name
+                        .split(" ")
+                        .map((w) => w[0])
+                        .join("")}
+                    </div>
+                    <div>
+                      <h4>{t.name}</h4>
+                      <small>{t.role}</small>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Boutique cross-sell ---------- */}
+      <section className="section">
         <div className="container">
           <Reveal>
             <div className="classes-teaser">

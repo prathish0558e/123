@@ -11,8 +11,9 @@ import useSeo from "../lib/useSeo.js";
  * /admin with a username and password. Different page, different cookie,
  * different data.
  *
- * Signing in is only ever needed to place an order or to see your own orders —
- * browsing and the product cards never ask for it.
+ * Signing in is needed to fill a bag: browsing and product pages are open to
+ * everyone, but the bag, /cart and checkout all belong to an account. That is
+ * why the navbar only shows the bag once there is a shopper behind it.
  */
 export default function LoginPage() {
   const { signIn, register, googleSignIn } = useCustomer();

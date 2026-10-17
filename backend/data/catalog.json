@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "updatedAt": "2026-10-14T18:23:30.100Z",
+  "version": 3,
+  "updatedAt": "2026-10-16T11:38:27.290Z",
   "dresses": [
     {
       "id": "cotton-aari-kurti",
@@ -32,33 +32,6 @@
       "sortOrder": 0,
       "created_at": "2026-10-14T07:21:34.812Z",
       "updated_at": "2026-10-14T07:21:34.812Z"
-    },
-    {
-      "id": "kanchi-soft-silk-saree",
-      "name": "Kanchipuram Soft Silk Saree",
-      "category": "Saree",
-      "startingPrice": 3000,
-      "priceMax": 4000,
-      "mrp": 3600,
-      "image": "/uploads/kanchipuram-soft-silk-saree-mv7sgxp9.png",
-      "gallery": [],
-      "sizes": [
-        "Free Size"
-      ],
-      "colors": [
-        "Peacock Blue",
-        "Maroon",
-        "Bottle Green"
-      ],
-      "fabric": "Soft silk with contrast zari border",
-      "badge": "Wedding Pick",
-      "description": "Traditional soft silk with a woven zari border and matching blouse piece. Free pre-pleating and draping done in the studio before pickup.",
-      "featured": true,
-      "inStock": true,
-      "visible": true,
-      "sortOrder": 1,
-      "created_at": "2026-10-14T06:51:41.033Z",
-      "updated_at": "2026-10-14T07:29:19.343Z"
     },
     {
       "id": "bridal-bridal-lehenga",

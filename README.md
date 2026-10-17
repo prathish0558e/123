@@ -171,6 +171,29 @@ npm run build
 node backend/server.js   # serves the built site + API on http://localhost:5000
 ```
 
+### Vercel deployment and Google sign-in
+
+The production site is `https://123-neon-six.vercel.app/` and uses the
+functions in `api/`. Before deploying, add these environment variables in
+**Vercel Project Settings → Environment Variables** for Production (and
+Preview if needed):
+
+```text
+GOOGLE_CLIENT_ID=the-client-id-from-google-cloud
+VITE_GOOGLE_CLIENT_ID=the-client-id-from-google-cloud
+GOOGLE_SESSION_SECRET=a-long-random-server-only-value
+```
+
+`GOOGLE_CLIENT_ID` and `VITE_GOOGLE_CLIENT_ID` must be the same Google
+Identity Services client ID. In Google Cloud Console, add
+`https://123-neon-six.vercel.app` under **Authorized JavaScript origins**.
+This ID-token flow does not use an OAuth redirect URI.
+After changing environment variables, redeploy the project.
+
+The Vercel customer function provides Google sign-in, session, and logout with
+a signed HttpOnly cookie. The local Node server continues to use its JSON
+customer store for the full local account and order flow.
+
 ## API endpoints (Node, port 5000)
 
 **Public**

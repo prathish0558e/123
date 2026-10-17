@@ -35,6 +35,15 @@
   --font-body: "Inter", "Segoe UI", sans-serif;
 
   --header-h: 66px;
+
+  /* Loading placeholders — one neutral pair so every skeleton shimmers alike */
+  --sk-base: #edf1f7;
+  --sk-sheen: linear-gradient(
+    100deg,
+    rgba(237, 241, 247, 0) 20%,
+    #f9fbfe 42%,
+    rgba(237, 241, 247, 0) 64%
+  );
 }
 
 * {
@@ -9113,60 +9122,160 @@ button:focus-visible {
   background: var(--primary-soft);
 }
 
-/* Skeleton card — same geometry as a flip card so nothing jumps on load */
+/*
+ * Loading placeholders — one system, two places.
+ *
+ * The collection grid and the product page both draw the REAL card geometry
+ * (photo, category, name, colour dots, price, button) as quiet, neutral blocks
+ * with a single slow sheen sweeping across them. No bouncing, no cartoon art:
+ * the layout simply resolves into photographs when the catalogue lands.
+ */
 .sk-card {
   display: grid;
-  grid-template-rows: 246px auto;
-  min-height: 442px;
+  grid-template-rows: auto auto;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: 16px;
   background: #fff;
   overflow: hidden;
 }
 
 .sk-thumb {
-  background: linear-gradient(100deg, #eef3fb 18%, #f9fbff 38%, #eef3fb 58%);
+  aspect-ratio: 4 / 5;
+  background: var(--sk-base);
+  background-image: var(--sk-sheen);
   background-size: 220% 100%;
-  animation: sk-shimmer 1.5s ease-in-out infinite;
+  animation: sk-shimmer 1.7s linear infinite;
 }
 
 .sk-body {
   display: grid;
-  gap: 10px;
-  padding: 18px;
+  gap: 9px;
+  padding: 16px;
 }
 
 .sk-line {
-  height: 13px;
-  border-radius: 7px;
-  background: linear-gradient(100deg, #eef3fb 18%, #f9fbff 38%, #eef3fb 58%);
+  height: 12px;
+  border-radius: 6px;
+  background: var(--sk-base);
+  background-image: var(--sk-sheen);
   background-size: 220% 100%;
-  animation: sk-shimmer 1.5s ease-in-out infinite;
+  animation: sk-shimmer 1.7s linear infinite;
 }
 
 .sk-line--sm {
-  width: 42%;
+  width: 38%;
+  height: 9px;
+}
+
+.sk-line--name {
+  width: 84%;
+  height: 14px;
+}
+
+.sk-line--fabric {
+  width: 62%;
   height: 10px;
 }
 
 .sk-line--price {
-  width: 58%;
-  height: 20px;
+  width: 46%;
+  height: 18px;
+}
+
+.sk-line--note {
+  width: 72%;
+  height: 9px;
+}
+
+/* the colour-swatch row */
+.sk-dots {
+  display: flex;
+  margin: 3px 0 1px;
+}
+
+.sk-dot {
+  width: 15px;
+  height: 15px;
+  margin-right: -5px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px var(--line);
+  background: var(--sk-base);
+  background-image: var(--sk-sheen);
+  background-size: 220% 100%;
+  animation: sk-shimmer 1.7s linear infinite;
+}
+
+/* the add-to-bag button */
+.sk-cta {
+  height: 38px;
+  margin-top: 4px;
+  border-radius: 999px;
+  background: var(--sk-base);
+  background-image: var(--sk-sheen);
+  background-size: 220% 100%;
+  animation: sk-shimmer 1.7s linear infinite;
+}
+
+/* the status line under a skeleton grid */
+.sk-status {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.sk-status span {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.sk-status::after {
+  content: "";
+  display: block;
+  width: min(220px, 60%);
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  animation: sk-sweep 1.5s ease-in-out infinite;
 }
 
 @keyframes sk-shimmer {
   0% {
-    background-position: 130% 0;
+    background-position: 135% 0;
   }
   100% {
-    background-position: -30% 0;
+    background-position: -35% 0;
+  }
+}
+
+@keyframes sk-sweep {
+  0% {
+    background-position: -60% 0;
+  }
+  100% {
+    background-position: 160% 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .sk-thumb,
-  .sk-line {
+  .sk-line,
+  .sk-dot,
+  .sk-cta,
+  .sk-status::after {
     animation: none;
+  }
+
+  .sk-status::after {
+    background-size: 100% 100%;
+    background: var(--primary-soft);
   }
 }
 

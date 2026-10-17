@@ -3,12 +3,18 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { COMPANY } from "../data/content.js";
 import { useCustomer } from "./CustomerProvider.jsx";
 import { cartCount, readCart } from "../lib/customer.js";
+import { pulseBag } from "../lib/flyToBag.js";
 
+/* The navbar is deliberately short: everything about the academy — single
+   classes and combos alike — opens from the one Classes entry, so the combos
+   never sit in the main bar as a separate destination.
+
+   The bag belongs to the signed-in shopper: it only exists on the bar once
+   there is an account behind it, and /cart is guarded the same way. */
 const NAV = [
   { label: "Home", to: "/" },
   { label: "Shop", to: "/shop" },
   { label: "Classes", to: "/classes" },
-  { label: "Combos", hash: "#combos", page: "/classes" },
   { label: "About", to: "/about" },
 ];
 
@@ -31,8 +37,16 @@ export default function Navbar() {
   const { user, signOut } = useCustomer();
   const accountRef = useRef(null);
 
+  /* The badge reflects the bag and bumps whenever the bag GROWS — an add from
+     the grid, the product page, or a class card all land here. */
   useEffect(() => {
-    const update = () => setCount(cartCount());
+    let previous = cartCount();
+    const update = () => {
+      const next = cartCount();
+      setCount(next);
+      if (next > previous) pulseBag();
+      previous = next;
+    };
     window.addEventListener("tct-cart-change", update);
     return () => window.removeEventListener("tct-cart-change", update);
   }, []);
@@ -74,24 +88,6 @@ export default function Navbar() {
     return () => window.removeEventListener("mousedown", onClick);
   }, [accountOpen]);
 
-  /**
-   * Jump to a section (like #shop) from ANY page.
-   * Sections that live on another route travel there first.
-   */
-  const gotoSection = (hash, page = "/") => (event) => {
-    event.preventDefault();
-    setMenuOpen(false);
-
-    if (pathname !== page) {
-      window.location.assign(`${page}${hash}`);
-      return;
-    }
-
-    const el = document.querySelector(hash);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    window.history.replaceState(null, "", `${page}${hash}`);
-  };
-
   const search = (event) => {
     event.preventDefault();
     const term = query.trim();
@@ -99,25 +95,18 @@ export default function Navbar() {
     navigate(term ? `/shop?q=${encodeURIComponent(term)}` : "/shop");
   };
 
-  const navLink = (item) =>
-    item.hash ? (
-      <a
-        key={item.label}
-        href={`${item.page || "/"}${item.hash}`}
-        onClick={gotoSection(item.hash, item.page || "/")}
-      >
-        {item.label}
-      </a>
-    ) : (
-      <NavLink
-        key={item.label}
-        to={item.to}
-        className={({ isActive: active }) => (active ? "active" : "")}
-        end={item.to === "/"}
-      >
-        {item.label}
-      </NavLink>
-    );
+  /* Every entry is a real route now — the old hash-jump items are gone, so the
+     navbar has a single, predictable link type. */
+  const navLink = (item) => (
+    <NavLink
+      key={item.label}
+      to={item.to}
+      className={({ isActive: active }) => (active ? "active" : "")}
+      end={item.to === "/"}
+    >
+      {item.label}
+    </NavLink>
+  );
 
   return (
     <>
@@ -187,9 +176,15 @@ export default function Navbar() {
           </nav>
 
           <div className="nav-cta">
-            <Link to="/cart" className="nav-cart" aria-label={`Bag${count ? `, ${count} items` : ""}`}>
-              <i className="bi bi-bag" /> {count ? <span>{count}</span> : null}
-            </Link>
+            {user ? (
+              <Link
+                to="/cart"
+                className="nav-cart"
+                aria-label={`Bag${count ? `, ${count} items` : ""}`}
+              >
+                <i className="bi bi-bag" /> {count ? <span>{count}</span> : null}
+              </Link>
+            ) : null}
 
             {user ? (
               <div className="nav-account-wrap" ref={accountRef}>

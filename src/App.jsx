@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import WhatsAppFloat from "./components/WhatsAppFloat.jsx";
+import MiniBag from "./components/MiniBag.jsx";
 import ToTop from "./components/ToTop.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ShopPage from "./pages/ShopPage.jsx";
@@ -90,6 +91,8 @@ function SiteChrome({ children }) {
       <Footer />
       <WhatsAppFloat />
       <ToTop />
+      {/* slides in the moment something is added to the bag */}
+      <MiniBag />
       {/* bottom street: road + store + the human guide */}
       <StreetMascot />
       {/* chat panel + assistant brain opened by the street guide */}

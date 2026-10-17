@@ -30,14 +30,46 @@ const BANDS = [
   { id: "15k+", label: "Rs 15k +", test: (p) => p > 15000 },
 ];
 
+/*
+ * Loading the collection.
+ *
+ * A quiet skeleton of the real card — photo block, category, name, colour dots,
+ * price, button — with one slow sheen across it. Nothing bounces or performs:
+ * the shapes are simply replaced by photographs when the catalogue arrives, so
+ * the grid never jumps.
+ */
 function SkeletonCard() {
   return (
     <div className="sk-card" aria-hidden="true">
       <div className="sk-thumb" />
       <div className="sk-body">
         <span className="sk-line sk-line--sm" />
-        <span className="sk-line" />
+        <span className="sk-line sk-line--name" />
+        <span className="sk-line sk-line--fabric" />
+        <div className="sk-dots">
+          {[0, 1, 2].map((i) => (
+            <span className="sk-dot" key={i} />
+          ))}
+        </div>
         <span className="sk-line sk-line--price" />
+        <span className="sk-line sk-line--note" />
+        <span className="sk-cta" />
+      </div>
+    </div>
+  );
+}
+
+function DressLoadingGrid({ count = 6 }) {
+  return (
+    <div className="dress-loading" role="status" aria-live="polite">
+      <span className="visually-hidden">Loading the dress collection</span>
+      <div className="dress-grid" aria-hidden="true">
+        {Array.from({ length: count }, (_, i) => (
+          <SkeletonCard key={i} />
+        ))}
+      </div>
+      <div className="sk-status" aria-hidden="true">
+        <span>Loading the collection</span>
       </div>
     </div>
   );
@@ -196,11 +228,7 @@ export default function DressShop({ dresses = [], categories = [], loading = fal
         </div>
 
         {loading ? (
-          <div className="dress-grid">
-            {Array.from({ length: 6 }, (_, i) => (
-              <SkeletonCard key={i} />
-            ))}
-          </div>
+          <DressLoadingGrid count={variant === "home" ? 6 : 9} />
         ) : visible.length ? (
           <>
             <div className="shop-status">
